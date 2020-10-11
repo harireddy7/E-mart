@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Footer from './components/Footer';
 import Header from './components/Header';
+import CartScreen from './screens/CartScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 
@@ -13,12 +14,13 @@ const App = () => {
     <Router>
       <Header />
       <main className="py-3">
-        <Switch>
-          <Container>
+        <Container>
+          <Switch>
             <Route path="/" exact component={HomeScreen} />
             <Route path="/product/:id" component={ProductScreen} />
-          </Container>
-        </Switch>
+            <Route path="/cart/:id?" component={CartScreen} />
+          </Switch>
+        </Container>
       </main>
       <Footer />
     </Router>

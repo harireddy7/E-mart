@@ -1,19 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Col, Row } from 'react-bootstrap';
 import Product from '../components/Product';
-import axios from 'axios';
+import { listProducts } from '../store/actions/actionCreators/productActions';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const { loading, error, products = [] } = useSelector(store => store.productList);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get('/api/products');
-      setProducts(data);
-    };
+    dispatch(listProducts());
+  }, [dispatch]);
 
-    fetchProducts();
-  }, []);
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <>
+        <Message variant="danger">{error}</Message>
+        <Button variant="danger" onClick={() => (window && window.location ? window.location.reload() : {})}>
+          Reload
+        </Button>
+      </>
+    );
+  }
 
   return (
     <>
