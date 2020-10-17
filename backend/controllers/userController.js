@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/user.js';
 import generateToken from '../utils/generateToken.js';
 
+// LOGIN
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -25,6 +26,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// GET PROFILE
 export const getUserProfileById = asyncHandler(async (req, res, next) => {
   if (req.user) {
     const user = await User.findById(req.user._id);
@@ -40,6 +42,30 @@ export const getUserProfileById = asyncHandler(async (req, res, next) => {
   throw new Error('User not found');
 });
 
+export const updateProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password || user.password;
+    }
+
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id)
+    });
+  } else {
+    res.status(400);
+    throw new Error('User not found');
+  }
+});
+
+// REGISTER
 export const registerUser = asyncHandler(async (req, res) => {
   const { email, name, password } = req.body;
   const userExists = await User.findOne({ email });

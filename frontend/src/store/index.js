@@ -5,9 +5,14 @@ import rootReducer from './reducers';
 
 const getLocalCart = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
 
+const getLocalUserInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+
 const initialState = {
   cart: {
     cartItems: getLocalCart
+  },
+  userLogin: {
+    userInfo: getLocalUserInfo
   }
 };
 

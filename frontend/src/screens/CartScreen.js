@@ -37,7 +37,7 @@ const CartScreen = ({ history }) => {
         </Col>
         <Col xs={4} sm={3}>
           {cartItems.length > 0 && (
-            <Button className="btn mb-2" size="sm" variant="danger" onClick={handleCheckout} onClick={handleClearCart}>
+            <Button className="btn mb-2" size="sm" variant="danger" onClick={handleClearCart}>
               Clear Cart
             </Button>
           )}
