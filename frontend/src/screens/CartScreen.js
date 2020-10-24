@@ -24,6 +24,7 @@ const CartScreen = ({ history }) => {
 
   const handleCheckout = () => {
     console.log('checkout', { cartItems });
+    history.push('/shipping');
   };
 
   return (

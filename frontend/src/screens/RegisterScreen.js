@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { registerAction } from '../store/actions/actionCreators/registerActions';
+import { registerAction } from '../store/actions/actionCreators/userActions';
 
 const RegisterScreen = ({ location, history }) => {
   const [name, setName] = useState('');
@@ -14,7 +14,7 @@ const RegisterScreen = ({ location, history }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const { loading, error, userInfo } = useSelector(store => store.userRegister);
 
@@ -29,7 +29,7 @@ const RegisterScreen = ({ location, history }) => {
   const submitHandler = e => {
     e.preventDefault();
     if (password === confirmPassword) {
-      dispath(registerAction({ name, email, password }));
+      dispatch(registerAction({ name, email, password }));
     } else {
       setMessage('Passwords not match');
       setTimeout(() => {

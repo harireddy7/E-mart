@@ -7,3 +7,7 @@ main {
 .cursor-pointer {
   cursor: pointer;
 }
+
+#alert-msg .close {
+  padding: 0.25rem 1rem;
+}

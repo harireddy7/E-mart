@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
-import { logoutAction } from '../store/actions/actionCreators/loginActions';
+import { logoutAction } from '../store/actions/actionCreators/userActions';
 
 const Header = () => {
   const location = useLocation();

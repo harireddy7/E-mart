@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { loginAction } from '../store/actions/actionCreators/loginActions';
+import { loginAction } from '../store/actions/actionCreators/userActions';
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState('');

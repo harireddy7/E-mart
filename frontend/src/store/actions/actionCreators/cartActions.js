@@ -1,4 +1,4 @@
-import { ADD_ITEM_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from '../actionConstants/cardConstants';
+import { ADD_ITEM_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from '../actionConstants/cartConstants';
 
 export const addToCart = ({ product, qty }) => (dispatch, getState) => {
   const { _id: id, name, image, countInStock, price } = product;
