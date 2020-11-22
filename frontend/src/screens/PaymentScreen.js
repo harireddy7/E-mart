@@ -15,7 +15,7 @@ const PaymentScreen = ({ history }) => {
     console.log(paymentMethod);
     if (paymentMethod) {
       dispatch(savePaymentMethod(paymentMethod));
-      history.push('/order');
+      history.push('/placeorder');
     }
   };
   return (
