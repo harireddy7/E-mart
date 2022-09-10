@@ -5,10 +5,11 @@ import Product from '../components/Product';
 import { listProducts } from '../store/actions/actionCreators/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import OrderedItem from '../components/OrderedItem';
 
-const HomeScreen = () => {
+const HomeScreen = ({ showOrders }) => {
   const dispatch = useDispatch();
-  const { loading, error, products = [] } = useSelector(store => store.productList);
+  const { loading, error, products = [], orders = [] } = useSelector(store => showOrders ? store.userOrders : store.productList);
 
   useEffect(() => {
     dispatch(listProducts());
@@ -26,6 +27,18 @@ const HomeScreen = () => {
           Reload
         </Button>
       </>
+    );
+  }
+
+  if (showOrders) {
+    return (
+      <Row className="my-3">
+        {orders?.map(order => (
+          <Col sm={4} md={4} lg={4} xl={3} key={order._id}>
+            <OrderedItem order={order} />
+          </Col>
+        ))}
+        </Row>
     );
   }
 

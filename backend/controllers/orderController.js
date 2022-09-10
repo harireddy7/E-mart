@@ -25,3 +25,11 @@ export const createOrderItems = asyncHandler(async (req, res) => {
     res.status(201).json(createdOrder);
   }
 });
+
+export const getOrderItems = asyncHandler(async (req, res) => {
+  // const {} = req.body;
+
+  const orders = await Order.find({ user: req.user._id });
+
+  res.status(200).json(orders);
+})

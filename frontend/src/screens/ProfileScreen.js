@@ -3,19 +3,24 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { getOrdersAction } from '../store/actions/actionCreators/orderActions';
 import { getUserDetails, updateProfileAction, resetToDefaults } from '../store/actions/actionCreators/userActions';
+import HomeScreen from './HomeScreen';
 
 const ProfileScreen = ({ history }) => {
-  const { userInfo, userDetails, updatedProfile } = useSelector(store => {
+  const { userInfo, userDetails, updatedProfile, userOrders } = useSelector(store => {
     return {
       userDetails: store.userDetails,
       userInfo: store.userLogin.userInfo,
-      updatedProfile: store.updateProfile
+      updatedProfile: store.updateProfile,
+      userOrders: store.userOrders,
     };
   });
   const { loading, error, user } = userDetails || {};
   const { loading: updateLoading, error: updateError, user: updateUser, success } = updatedProfile || {};
   const dispatch = useDispatch();
+
+  console.log(userOrders)
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -27,6 +32,8 @@ const ProfileScreen = ({ history }) => {
     if (userInfo && userInfo._id) {
       if (!user) {
         dispatch(getUserDetails(userInfo._id));
+      } else {
+        dispatch(getOrdersAction());
       }
     } else {
       history.push('/');
@@ -131,6 +138,7 @@ const ProfileScreen = ({ history }) => {
       </Col>
       <Col md={8}>
         <h3>My Orders</h3>
+        <HomeScreen showOrders />
       </Col>
     </Row>
   );

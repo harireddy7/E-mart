@@ -9,7 +9,7 @@ import {
   userShippingAddressReducer,
   userPaymentMethodReducer
 } from './userReducer';
-import { orderCreateReducer } from './orderReducers';
+import { orderCreateReducer, userOrdersReducer } from './orderReducers';
 
 const rootReducer = combineReducers({
   productList: productListReducer,
@@ -21,7 +21,8 @@ const rootReducer = combineReducers({
   updateProfile: updateProfileReducer,
   userShippingAddress: userShippingAddressReducer,
   userPaymentMethod: userPaymentMethodReducer,
-  orderCreate: orderCreateReducer
+  orderCreate: orderCreateReducer,
+  userOrders: userOrdersReducer,
 });
 
 export default rootReducer;

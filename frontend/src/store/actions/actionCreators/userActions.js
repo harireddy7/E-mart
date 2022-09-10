@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../../../axiosInstance';
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -27,7 +27,7 @@ export const loginAction = ({ email, password }) => async dispatch => {
         'Content-Type': 'application/json'
       }
     };
-    const { data } = await axios.post('/api/users/login', { email, password }, config);
+    const { data } = await axiosInstance.post('/auth/login', { email, password }, config);
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
@@ -54,7 +54,7 @@ export const registerAction = ({ name, email, password }) => async dispatch => {
         'Content-Type': 'application/json'
       }
     };
-    const { data } = await axios.post('/api/users', { name, email, password }, config);
+    const { data } = await axiosInstance.post('/auth/register', { name, email, password }, config);
 
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
@@ -80,7 +80,7 @@ export const getUserDetails = id => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`
       }
     };
-    const { data } = await axios.get('/api/users/profile', config);
+    const { data } = await axiosInstance.get('/users/profile', config);
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -103,7 +103,7 @@ export const updateProfileAction = userObj => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`
       }
     };
-    const { data } = await axios.put('/api/users/profile', { ...userObj }, config);
+    const { data } = await axiosInstance.put('/users/profile', { ...userObj }, config);
 
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });

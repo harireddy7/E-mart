@@ -31,6 +31,7 @@ userSchema.methods.matchPassword = async function (passwordtoMatch) {
   return await bcrypt.compare(passwordtoMatch, this.password);
 };
 
+// save -> register, update
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();

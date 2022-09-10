@@ -20,15 +20,21 @@ const Header = () => {
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect className="navbar">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>E-mart</Navbar.Brand>
+            <Navbar.Brand>Tech Prism</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
               <LinkContainer to="/cart">
                 <Nav.Link active={location.pathname === '/cart'}>
-                  <i className="fas fa-shopping-cart mr-2"></i>
+                  <i class="fa-solid fa-cart-shopping mr-2"></i>
                   Cart
+                </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/orders">
+                <Nav.Link active={location.pathname === '/orders'}>
+                  <i class="fa-solid fa-list-check mr-2"></i>
+                  Orders
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (

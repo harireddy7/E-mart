@@ -1,3 +1,3 @@
-## E-mart
+## Tech Prism
 
-React Frontend for E-mart
+React Frontend for Tech Prism

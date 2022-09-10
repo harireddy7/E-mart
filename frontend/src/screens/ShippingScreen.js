@@ -6,7 +6,7 @@ import FormContainer from '../components/FormContainer';
 import { saveShippingAddress } from '../store/actions/actionCreators/userActions';
 
 const ShippingScreen = ({ history }) => {
-  const { userInfo, shippingAddress } = useSelector(store => {
+  const { userInfo, shippingAddress = {} } = useSelector(store => {
     return {
       userInfo: store.userLogin.userInfo,
       shippingAddress: store.userShippingAddress.shippingAddress
@@ -14,10 +14,10 @@ const ShippingScreen = ({ history }) => {
   });
   const dispatch = useDispatch();
 
-  const [address, setAddress] = useState(shippingAddress.address);
-  const [city, setCity] = useState(shippingAddress.city);
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-  const [country, setCountry] = useState(shippingAddress.country);
+  const [address, setAddress] = useState(shippingAddress?.address);
+  const [city, setCity] = useState(shippingAddress?.city);
+  const [postalCode, setPostalCode] = useState(shippingAddress?.postalCode);
+  const [country, setCountry] = useState(shippingAddress?.country);
 
   useEffect(() => {
     if (!userInfo) {
