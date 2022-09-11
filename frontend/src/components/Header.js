@@ -1,18 +1,22 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { logoutAction } from '../store/actions/actionCreators/userActions';
+import { isUserLoggedIn } from '../utils';
 
 const Header = () => {
   const location = useLocation();
-  const { userInfo } = useSelector(store => store.userLogin);
+  const history = useHistory();
   const dispatch = useDispatch();
+
+  const userInfo = isUserLoggedIn();
 
   const logoutHandler = () => {
     dispatch(logoutAction());
+    history.push('/login');
   };
 
   return (
@@ -27,18 +31,18 @@ const Header = () => {
             <Nav className="ml-auto">
               <LinkContainer to="/cart">
                 <Nav.Link active={location.pathname === '/cart'}>
-                  <i class="fa-solid fa-cart-shopping mr-2"></i>
+                  <i className="fa-solid fa-cart-shopping mr-2"></i>
                   Cart
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/orders">
+              {/* <LinkContainer to="/orders">
                 <Nav.Link active={location.pathname === '/orders'}>
-                  <i class="fa-solid fa-list-check mr-2"></i>
+                  <i className="fa-solid fa-list-check mr-2"></i>
                   Orders
                 </Nav.Link>
-              </LinkContainer>
+              </LinkContainer> */}
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
+                <NavDropdown title={<span><i className="fa-solid fa-user"></i> {userInfo.name}</span>} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>

@@ -8,12 +8,17 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { loginAction } from '../store/actions/actionCreators/userActions';
 
-const LoginScreen = ({ location, history }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispath = useDispatch();
+const initState = {
+  email: '',
+  password: ''
+};
 
-  const { loading, error, userInfo } = useSelector(store => store.userLogin);
+const LoginScreen = ({ location, history }) => {
+  const [state, setState] = React.useReducer((state, nextState) => ({ ...state, ...nextState }), initState);
+  const { email, password } = state;
+
+  const { isLoading, actionMessage, data: userInfo } = useSelector(store => store.user);
+  const dispath = useDispatch();
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
@@ -30,13 +35,13 @@ const LoginScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>Sign in</h1>
-      {error && <Message variant="danger">{error}</Message>}
-      {loading && <Loader />}
+      <h1>Login</h1>
+      {actionMessage && actionMessage.type === 'error' && <Message variant="danger">{actionMessage.message}</Message>}
+      {isLoading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email">
           <Form.Label>Email Address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
+          <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setState({ email: e.target.value })} />
         </Form.Group>
 
         <Form.Group controlId="password">
@@ -45,17 +50,17 @@ const LoginScreen = ({ location, history }) => {
             type="password"
             placeholder="Enter password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => setState({ password: e.target.value })}
           />
         </Form.Group>
 
         <Form.Group controlId="loginBtn">
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={ !email || !password }>Login</Button>
         </Form.Group>
       </Form>
 
       <Row className="py-3">
-        New User? <NavLink to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register here!</NavLink>
+        New User? <NavLink to={redirect ? `/register?redirect=${redirect}` : '/register'} style={{ marginLeft: '5px' }}>Register here!</NavLink>
       </Row>
     </FormContainer>
   );

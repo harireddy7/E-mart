@@ -8,15 +8,20 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { registerAction } from '../store/actions/actionCreators/userActions';
 
-const RegisterScreen = ({ location, history }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const dispatch = useDispatch();
+const initState = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  message: '',
+};
 
-  const { loading, error, userInfo } = useSelector(store => store.userRegister);
+const RegisterScreen = ({ location, history }) => {
+  const [state, setState] = React.useReducer((state, nextState) => ({ ...state, ...nextState }), initState);
+  const { name, email, password, confirmPassword, message } = state;
+
+  const { isLoading, actionMessage, data: userInfo } = useSelector(store => store.user);
+  const dispatch = useDispatch();
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
@@ -31,28 +36,28 @@ const RegisterScreen = ({ location, history }) => {
     if (password === confirmPassword) {
       dispatch(registerAction({ name, email, password }));
     } else {
-      setMessage('Passwords not match');
+      setState({ message: 'Passwords not match' });
       setTimeout(() => {
-        setMessage('');
+        setState({ message: null });
       }, 1000);
     }
   };
 
   return (
     <FormContainer>
-      <h1>Sign in</h1>
+      <h1>Register</h1>
+      {actionMessage && actionMessage.type === 'error' && <Message variant="danger">{actionMessage.message}</Message>}
       {message && <Message variant="danger">{message}</Message>}
-      {error && <Message variant="danger">{error}</Message>}
-      {loading && <Loader />}
+      {isLoading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="name" placeholder="Enter name" value={name} onChange={e => setName(e.target.value)} />
+          <Form.Control type="name" placeholder="Enter name" value={name} onChange={e => setState({ name: e.target.value })} />
         </Form.Group>
 
         <Form.Group controlId="email">
           <Form.Label>Email Address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
+          <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setState({ email: e.target.value })} />
         </Form.Group>
 
         <Form.Group controlId="password">
@@ -61,7 +66,7 @@ const RegisterScreen = ({ location, history }) => {
             type="password"
             placeholder="Enter password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => setState({ password: e.target.value })}
           />
         </Form.Group>
 
@@ -71,17 +76,17 @@ const RegisterScreen = ({ location, history }) => {
             type="password"
             placeholder="Confirm password"
             value={confirmPassword}
-            onChange={e => setConfirmPassword(e.target.value)}
+            onChange={e => setState({ confirmPassword: e.target.value })}
           />
         </Form.Group>
 
         <Form.Group controlId="registerBtn">
-          <Button type="submit">Register</Button>
+          <Button type="submit" disabled={ !name || !email || !password || !confirmPassword || message }>Register</Button>
         </Form.Group>
       </Form>
 
       <Row className="py-3">
-        New User? <NavLink to={redirect ? `/login?redirect=${redirect}` : '/login'}>Login here!</NavLink>
+        New User? <NavLink to={redirect ? `/login?redirect=${redirect}` : '/login'} style={{ marginLeft: '5px' }}>Login here!</NavLink>
       </Row>
     </FormContainer>
   );

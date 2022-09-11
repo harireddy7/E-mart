@@ -7,7 +7,7 @@ export const getProducts = asyncHandler(async (_, res) => {
 });
 
 export const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.productId);
   if (product) {
     res.json(product);
   } else {

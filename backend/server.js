@@ -50,10 +50,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Not Found Route
-// app.use(notFound);
+app.use(notFound);
 // Error Handler for Express
 // Express handles any route with four arguments as error handling middleware
-// app.use(errorHandler);
+app.use(errorHandler);
 
 const { PORT = 5000, NODE_ENV = 'development' } = process.env;
 app.listen(PORT, console.log(`server running in ${NODE_ENV} mode on port ${PORT}`.yellow.bold));

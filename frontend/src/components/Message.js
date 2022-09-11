@@ -9,7 +9,7 @@ const Message = ({ variant, children }) => {
       show={show}
       variant={variant}
       transition
-      dismissible
+      // dismissible
       className="px-3 py-1 rounded"
       onClose={closeAlert}
       id="alert-msg"
