@@ -11,11 +11,11 @@ import {
 	Row,
 } from 'react-bootstrap';
 
-import { getProductById } from '../store/actions/actionCreators/productActions';
-import Rating from '../components/Rating';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-import { addToCart } from '../store/actions/actionCreators/cartActions';
+import { getProductById } from '../../store/actions/actionCreators/productActions';
+import Rating from '../../components/Rating';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import { addToCart } from '../../store/actions/actionCreators/cartActions';
 
 const ProductScreen = ({ history, match }) => {
 	const [qty, setQty] = useState(1);

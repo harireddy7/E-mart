@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -12,7 +12,12 @@ const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const userInfo = isUserLoggedIn();
+  const { data } = useSelector(store => store.user);
+  let userInfo = data;
+
+  if (!userInfo) {
+    userInfo = isUserLoggedIn();
+  }
 
   const logoutHandler = () => {
     dispatch(logoutAction());

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import FormContainer from '../components/FormContainer';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-import { registerAction } from '../store/actions/actionCreators/userActions';
+import FormContainer from '../../components/FormContainer';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import { registerAction } from '../../store/actions/actionCreators/userActions';
 
 const initState = {
   name: '',

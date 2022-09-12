@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Col, Row } from 'react-bootstrap';
-import Product from '../components/Product';
-import { getProducts } from '../store/actions/actionCreators/productActions';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-import OrderedItem from '../components/OrderedItem';
+import Product from '../../components/Product';
+import { getProducts } from '../../store/actions/actionCreators/productActions';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import OrderedItem from '../../components/OrderedItem';
 
 const HomeScreen = ({ showOrders }) => {
   const dispatch = useDispatch();

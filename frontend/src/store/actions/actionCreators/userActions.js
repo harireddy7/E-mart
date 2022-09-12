@@ -39,7 +39,7 @@ export const loginAction =
 			);
 
 			localStorage.setItem('__JWT_TOKEN__', data.token);
-			const { _id, name, } = data;
+			const { _id, name } = data;
 			const item = { _id, name, email };
 			localStorage.setItem('__LUSER__', JSON.stringify(item));
 			dispatch({ type: GET_USER_SUCCESS, payload: data });
@@ -114,7 +114,7 @@ export const getUserDetails = (id) => async (dispatch) => {
 	}
 };
 
-export const updateProfileAction = (userObj) => async (dispatch) => {
+export const updateProfileAction = (userObj, api) => async (dispatch) => {
 	const _token = localStorage.getItem('__JWT_TOKEN__');
 
 	try {
@@ -125,11 +125,7 @@ export const updateProfileAction = (userObj) => async (dispatch) => {
 				Authorization: `Bearer ${_token}`,
 			},
 		};
-		const { data } = await axiosInstance.put(
-			'/users/profile',
-			{ ...userObj },
-			config
-		);
+		const { data } = await axiosInstance.put(api, { ...userObj }, config);
 
 		const { _id, name, email } = data;
 		const item = { _id, name, email };
