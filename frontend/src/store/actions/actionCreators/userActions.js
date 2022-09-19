@@ -156,3 +156,15 @@ export const savePaymentMethod = (method) => (dispatch) => {
 
 	localStorage.setItem('paymentMethod', JSON.stringify(method));
 };
+
+export const addToCart = (cartItem) => (dispatch, getState) => {
+	const { product, qty } = cartItem;
+	const { _id: id, name, image, countInStock, price } = product;
+	const cartItem = { id, name, image, price, countInStock, qty };
+	dispatch({
+		type: 'ADD_ITEM_TO_CART',
+		payload: cartItem,
+	});
+
+	localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+};

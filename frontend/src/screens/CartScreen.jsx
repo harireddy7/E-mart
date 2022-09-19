@@ -3,11 +3,17 @@ import { useDispatch } from 'react-redux';
 import { Button, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addToCart, removeFromCart, clearCart } from '../store/actions/actionCreators/cartActions';
+import { addToCart, removeFromCart, clearCart, getUserCartAction } from '../store/actions/actionCreators/cartActions';
 
 const CartScreen = ({ history }) => {
-  const { cartItems } = useSelector(store => store.cart);
+  const { cart: cartItems } = useSelector(store => store.user);
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (!cartItems) {
+      dispatch(getUserCartAction())
+    }
+  }, [])
 
   const handleQtyChange = (qty, product) => {
     const { id: _id, ...rest } = product;
@@ -18,8 +24,8 @@ const CartScreen = ({ history }) => {
     dispatch(clearCart());
   };
 
-  const handleRemoveProduct = product => {
-    dispatch(removeFromCart(product.id));
+  const handleRemoveProduct = productId => {
+    dispatch(removeFromCart(productId));
   };
 
   const handleCheckout = () => {
@@ -36,23 +42,24 @@ const CartScreen = ({ history }) => {
         <Col xs={8} sm={9}>
           <h3>Shopping Cart</h3>
         </Col>
-        <Col xs={4} sm={3}>
-          {cartItems.length > 0 && (
+        {/* <Col xs={4} sm={3}>
+          {cartItems && cartItems.length > 0 && (
             <Button className="btn mb-2" size="sm" variant="danger" onClick={handleClearCart}>
               Clear Cart
             </Button>
           )}
-        </Col>
+        </Col> */}
       </Row>
       <hr />
-      {cartItems.length <= 0 ? (
+      {!cartItems ? (
         <h6 className="text-center text-muted">No Items in the Cart, Add some</h6>
       ) : (
         <Row>
           <Col sm={8}>
             <ListGroup>
-              {cartItems.map(product => (
-                <Row key={product.id} className="mb-1">
+              {console.log(cartItems)}
+              {cartItems.map(({ _id, product, quantity }) => (
+                <Row key={_id} className="mb-1">
                   <Col sm={2}>
                     <Image src={product.image} fluid className="rounded" />
                   </Col>
@@ -64,7 +71,7 @@ const CartScreen = ({ history }) => {
                     <Form.Control
                       as="select"
                       size="sm"
-                      value={product.qty}
+                      value={quantity}
                       onChange={e => handleQtyChange(+e.target.value, product)}
                     >
                       {[...Array(product.countInStock).keys()].map(id => (
@@ -75,7 +82,7 @@ const CartScreen = ({ history }) => {
                     </Form.Control>
                   </Col>
                   <Col sm={2}>
-                    <i className="fas fa-trash cursor-pointer" onClick={() => handleRemoveProduct(product)}></i>
+                    <i className="fas fa-trash cursor-pointer" onClick={() => handleRemoveProduct(product._id)}></i>
                   </Col>
                 </Row>
               ))}
@@ -85,8 +92,8 @@ const CartScreen = ({ history }) => {
             <ListGroup>
               <ListGroup.Item>
                 <Row className="p-2">
-                  <h3>Subtotal ({cartItems.reduce((sum, p) => sum + p.qty, 0)}) Items</h3>
-                  <h6>${cartItems.reduce((sum, p) => sum + p.price * p.qty, 0)}</h6>
+                  <h3>Subtotal ({cartItems.reduce((sum, item) => sum + item.quantity, 0)}) Items</h3>
+                  <h6>${cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0)}</h6>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>

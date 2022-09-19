@@ -32,9 +32,10 @@ const ProductScreen = ({ history, match }) => {
 	}, [match.params.id, dispatch]);
 
 	const handleAddToCart = () => {
-		dispatch(addToCart({ product, qty: +qty }));
+		dispatch(addToCart({ id: product._id, quantity: +qty, history }));
+
 		// history.push(`/cart/${match.params.id}?qty=${qty}`);
-		history.push('/cart');
+		// history.push('/cart');
 	};
 
 	if (isLoading) return <Loader />;
