@@ -4,6 +4,7 @@ import { Button, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart, clearCart, getUserCartAction } from '../store/actions/actionCreators/cartActions';
+import EmptyCartImg from '../assets/empty-cart.jpg';
 
 const CartScreen = ({ history }) => {
   const { cart: cartItems } = useSelector(store => store.user);
@@ -15,9 +16,8 @@ const CartScreen = ({ history }) => {
     }
   }, [])
 
-  const handleQtyChange = (qty, product) => {
-    const { id: _id, ...rest } = product;
-    dispatch(addToCart({ product: { _id, ...rest }, qty }));
+  const handleQtyChange = (quantity, productId) => {
+    dispatch(addToCart({ id: productId, quantity }));
   };
 
   const handleClearCart = () => {
@@ -51,8 +51,11 @@ const CartScreen = ({ history }) => {
         </Col> */}
       </Row>
       <hr />
-      {!cartItems ? (
-        <h6 className="text-center text-muted">No Items in the Cart, Add some</h6>
+      {(!cartItems || (Array.isArray(cartItems) && cartItems.length === 0)) ? (
+        <div className='d-flex flex-column align-items-center'>
+          <h6 className="text-muted">No Items in the Cart, Let's add some</h6>
+          <img src={ EmptyCartImg } style={{ maxWidth: '300px' }} />
+        </div>
       ) : (
         <Row>
           <Col sm={8}>
@@ -64,7 +67,7 @@ const CartScreen = ({ history }) => {
                     <Image src={product.image} fluid className="rounded" />
                   </Col>
                   <Col sm={3}>
-                    <Link to={`/product/${product.id}`}>{product.name}</Link>
+                    <Link to={`/product/${product._id}`}>{product.name}</Link>
                   </Col>
                   <Col sm={2}>${product.price}</Col>
                   <Col sm={3}>
@@ -72,7 +75,7 @@ const CartScreen = ({ history }) => {
                       as="select"
                       size="sm"
                       value={quantity}
-                      onChange={e => handleQtyChange(+e.target.value, product)}
+                      onChange={e => handleQtyChange(+e.target.value, product._id)}
                     >
                       {[...Array(product.countInStock).keys()].map(id => (
                         <option key={id + 1} value={id + 1}>

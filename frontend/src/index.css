@@ -11,3 +11,14 @@ main {
 #alert-msg .close {
   padding: 0.25rem 1rem;
 }
+
+.order-three {
+  order: 0;
+}
+
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  .order-three {
+    order: 3;
+  }
+}

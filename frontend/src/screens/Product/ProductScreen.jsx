@@ -64,7 +64,7 @@ const ProductScreen = ({ history, match }) => {
 				<Col md={6}>
 					<Image src={product.image} alt={product.name} thumbnail />
 				</Col>
-				<Col md={3} className='my-2'>
+				<Col md={12} xl={3} className='my-2 order-three'>
 					<ListGroup style={{ overflow: 'hidden' }}>
 						<ListGroup.Item>
 							<h3>{product.name}</h3>
@@ -76,7 +76,7 @@ const ProductScreen = ({ history, match }) => {
 						<ListGroup.Item>{product.description}</ListGroup.Item>
 					</ListGroup>
 				</Col>
-				<Col md={3} className='my-2'>
+				<Col md={6} xl={3} className='my-2'>
 					<Card>
 						<ListGroup>
 							<ListGroup.Item>
