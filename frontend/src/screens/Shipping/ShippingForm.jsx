@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Form, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import FormContainer from '../../components/FormContainer';
 import useLoadUser from '../../hooks/useLoadUser';
 import { saveShippingAddressAction } from '../../store/actions/actionCreators/userActions';
@@ -14,9 +15,10 @@ const initAddress = {
 	addressType: 'HOME',
 };
 
-const ShippingForm = ({ history, closeForm }) => {
+const ShippingForm = ({ closeForm }) => {
 	const userInfo = useLoadUser();
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const [state, setState] = React.useReducer(
 		(state, newState) => ({ ...state, ...newState }),

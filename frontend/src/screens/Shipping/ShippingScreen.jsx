@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import { Card, Container, Row } from 'react-bootstrap';
+import { Button, Card, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import CheckoutSteps from '../../components/CheckoutSteps';
 import FormContainer from '../../components/FormContainer';
 import Loader from '../../components/Loader';
-
 import useLoadUser from '../../hooks/useLoadUser';
-import { getShippingAddressAction } from '../../store/actions/actionCreators/userActions';
+import {
+	getShippingAddressAction,
+	removeShippingAddressAction,
+} from '../../store/actions/actionCreators/userActions';
 import ShippingCard from './ShippingCard';
 import ShippingForm from './ShippingForm';
 
 const ShippingScreen = ({ history }) => {
 	const userInfo = useLoadUser();
-	const { shippingAddress } = useSelector((store) => store.user);
+	const { shippingAddress, selectedAddressId } = useSelector((store) => store.user);
 	const dispatch = useDispatch();
 
 	const [showShippingForm, setShowShippingForm] = React.useState(false);
-	const [selectedAddress, setSelectedAddress] = React.useState();
+	const [selectedAddress, setSelectedAddress] = React.useState(selectedAddressId);
 
 	React.useEffect(() => {
 		if (!shippingAddress) {
@@ -24,31 +26,35 @@ const ShippingScreen = ({ history }) => {
 		}
 	}, []);
 
-	const [address, setAddress] = useState(shippingAddress?.address);
-	const [city, setCity] = useState(shippingAddress?.city);
-	const [postalCode, setPostalCode] = useState(shippingAddress?.postalCode);
-	const [country, setCountry] = useState(shippingAddress?.country);
-
 	const submitHandler = (e) => {
 		e.preventDefault();
-		const _address = { address, city, postalCode, country };
+		const _address = shippingAddress?.find(add => add._id === selectedAddress);
 		console.log(_address);
-		// dispatch(saveShippingAddressAction(_address, history));
+		dispatch({
+			type: 'SELECT_SHIPPING_ADDRESS',
+			payload: selectedAddress
+		});
+		history.push('/payment');
+	};
+
+	const removeAddress = (id) => {
+		dispatch(removeShippingAddressAction(id));
 	};
 
 	if (!shippingAddress) return <Loader />;
 
 	return (
 		<FormContainer md={12}>
-			<CheckoutSteps step1={!userInfo} step2 />
+			<CheckoutSteps step1={!userInfo} step2 step3={selectedAddressId} />
 			<Row style={{ pointerEvents: showShippingForm ? 'none' : 'auto' }}>
 				{shippingAddress.map((address) => (
 					<ShippingCard
 						key={address._id}
 						address={address}
-						isSelected={address._id.toString() === selectedAddress}
+						isSelected={address._id === selectedAddress}
 						onClick={(addressId) => setSelectedAddress(addressId)}
 						showShippingForm={showShippingForm}
+						handleRemove={removeAddress}
 					/>
 				))}
 				<Card
@@ -69,11 +75,16 @@ const ShippingScreen = ({ history }) => {
 					</Card.Body>
 				</Card>
 			</Row>
-			{showShippingForm && <ShippingForm closeForm={() => setShowShippingForm(false)} />}
+
+			{showShippingForm ? (
+				<ShippingForm closeForm={() => setShowShippingForm(false)} />
+			) : (
+				<Row className='my-4'>
+					<Button className='my-4' disabled={ !selectedAddress } onClick={submitHandler}>Continue to payment</Button>
+				</Row>
+			)}
 		</FormContainer>
 	);
-
-	// return <ShippingForm />
 };
 
 export default ShippingScreen;

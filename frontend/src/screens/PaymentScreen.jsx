@@ -7,11 +7,11 @@ import useLoadUser from '../hooks/useLoadUser';
 import { savePaymentMethod } from '../store/actions/actionCreators/userActions';
 
 const PaymentScreen = ({ history }) => {
-  useLoadUser();
-  // const { paymentMethod: savedpaymentMethod } = useSelector(store => store.user);
+  const userInfo = useLoadUser();
   const dispatch = useDispatch();
 
   const [paymentMethod, setPaymentMethod] = useState();
+
   const submitHandler = e => {
     e.preventDefault();
     console.log(paymentMethod);
@@ -20,10 +20,11 @@ const PaymentScreen = ({ history }) => {
       history.push('/placeorder');
     }
   };
+
   return (
     <FormContainer>
       <Row className="mb-3">
-        <CheckoutSteps step1 step2 step3 />
+        <CheckoutSteps step1={!userInfo} step2 step3 />
         <h3>Payment Method</h3>
       </Row>
       <Row>

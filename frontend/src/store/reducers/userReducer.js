@@ -12,6 +12,7 @@ const initialState = {
 	cart: null,
 	orders: [],
 	shippingAddress: null,
+	selectedAddressId: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -79,6 +80,12 @@ const userReducer = (state = initialState, action) => {
 					message: action.payload,
 				},
 			};
+		}
+		case 'SELECT_SHIPPING_ADDRESS': {
+			return {
+				...state,
+				selectedAddressId: action.payload,
+			}
 		}
 		default:
 			return state;

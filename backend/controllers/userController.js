@@ -199,7 +199,7 @@ export const removeShippingAddress = asyncHandler(async (req, res) => {
 		const { id } = req.params;
 		const _shippingAddress = user.shippingAddress;
 		const isAddressAlreadySaved = _shippingAddress.find(
-			(item) => item.address.trim() === address.trim()
+			(item) => item._id.toString() === id
 		);
 		if (isAddressAlreadySaved) {
 			user.shippingAddress = _shippingAddress.filter((item) => item._id.toString() !== id);

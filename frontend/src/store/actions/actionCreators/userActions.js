@@ -188,9 +188,39 @@ export const saveShippingAddressAction = (shippingAddress, history) => async (di
 		};
 		const { data } = await axiosInstance.post('/users/shipping-address', shippingAddress, config);
 
-		console.log(data);
+		const _addresses = data?.shippingAddress;
+
+		const _address = _addresses.find(add => add.address === shippingAddress.address);
+
 		dispatch({ type: 'GET_ADDRESS_SUCCESS', payload: data.shippingAddress });
-		// history.push('/payment');
+		dispatch({
+			type: 'SELECT_SHIPPING_ADDRESS',
+			payload: _address._id
+		});
+		history.push('/payment');
+	} catch (error) {
+		const { response, message } = error;
+		const { data } = response;
+		const payload = data.message ? data.message : message;
+
+		dispatch({ type: 'GET_ADDRESS_FAIL', payload });
+	}
+}
+
+export const removeShippingAddressAction = (addressId) => async (dispatch) => {
+	const _token = localStorage.getItem('__JWT_TOKEN__');
+
+	try {
+		dispatch({ type: 'GET_ADDRESS_START' });
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${_token}`,
+			},
+		};
+		const { data } = await axiosInstance.delete(`/users/shipping-address/${addressId}`, config);
+
+		dispatch({ type: 'GET_ADDRESS_SUCCESS', payload: data.shippingAddress });
 	} catch (error) {
 		const { response, message } = error;
 		const { data } = response;
