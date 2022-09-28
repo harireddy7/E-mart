@@ -137,3 +137,82 @@ export const removeFromCart = asyncHandler(async (req, res) => {
 		throw new Error('User not found');
 	}
 });
+
+// CLEAR CART
+export const clearUserCart = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id);
+	if (user) {
+		user.cart = [];
+		const updatedUser = await user.save();
+		res.json({
+			cart: updatedUser.cart,
+		});
+	} else {
+		res.status(404);
+		throw new Error('User not found');
+	}
+});
+
+
+// GET SHIPPING ADDRESS
+export const getShippingAddress = asyncHandler(async (req, res) => {
+	if (req.user) {
+		const user = await User.findById(req.user._id);
+		return res.json({
+			shippingAddress: user.shippingAddress,
+		});
+	}
+
+	res.status(404);
+	throw new Error('User not found');
+})
+
+// SAVE SHIPPING ADDRESS
+export const saveShippingAddress = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id);
+	if (user) {
+		const { name, address, city, postalCode, country, addressType } = req.body;
+		const _shippingAddress = user.shippingAddress;
+		const isAddressAlreadySaved = _shippingAddress.find(
+			(item) => item.address.trim() === address.trim()
+		);
+		if (!isAddressAlreadySaved) {
+			user.shippingAddress = [..._shippingAddress, { name, address, city, postalCode, country, addressType }];
+		} else {
+			res.status(400);
+			throw new Error('Same address already saved. Please add new one!');
+		}
+		const updatedUser = await user.save();
+		res.status(201).json({
+			shippingAddress: updatedUser.shippingAddress,
+		});
+	} else {
+		res.status(404);
+		throw new Error('User not found');
+	}
+})
+
+// REMOVE SHIPPING ADDRESS
+export const removeShippingAddress = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user._id);
+	if (user) {
+		const { id } = req.params;
+		const _shippingAddress = user.shippingAddress;
+		const isAddressAlreadySaved = _shippingAddress.find(
+			(item) => item.address.trim() === address.trim()
+		);
+		if (isAddressAlreadySaved) {
+			user.shippingAddress = _shippingAddress.filter((item) => item._id.toString() !== id);
+			const updatedUser = await user.save();
+			res.json({
+				shippingAddress: updatedUser.shippingAddress,
+			});
+		} else {
+			res.status(400);
+			throw new Error('Invalid address, unable to proceed!');
+		}
+	} else {
+		res.status(404);
+		throw new Error('User not found');
+	}
+})

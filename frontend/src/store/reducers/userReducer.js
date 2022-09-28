@@ -11,14 +11,15 @@ const initialState = {
 	data: null,
 	cart: null,
 	orders: [],
-	address: [],
+	shippingAddress: null,
 };
 
 const userReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_USER_START:
 		case 'GET_CART_START':
-		case 'ADD_CART_START': {
+		case 'ADD_CART_START':
+		case 'GET_ADDRESS_START': {
 			return { ...state, isLoading: true };
 		}
 		case GET_USER_FAIL: {
@@ -46,11 +47,30 @@ const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isLoading: false,
+				actionMessage: null,
 				cart: action.payload,
 			};
 		}
 		case 'GET_CART_FAIL':
 		case 'ADD_CART_FAIL': {
+			return {
+				...state,
+				isLoading: false,
+				actionMessage: {
+					type: 'error',
+					message: action.payload,
+				},
+			};
+		}
+		case 'GET_ADDRESS_SUCCESS': {
+			return {
+				...state,
+				isLoading: false,
+				actionMessage: null,
+				shippingAddress: action.payload
+			}
+		}
+		case 'GET_ADDRESS_FAIL': {
 			return {
 				...state,
 				isLoading: false,

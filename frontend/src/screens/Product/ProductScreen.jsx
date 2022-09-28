@@ -15,7 +15,7 @@ import { getProductById } from '../../store/actions/actionCreators/productAction
 import Rating from '../../components/Rating';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
-import { addToCart } from '../../store/actions/actionCreators/cartActions';
+import { addToCartAction } from '../../store/actions/actionCreators/cartActions';
 
 const ProductScreen = ({ history, match }) => {
 	const [qty, setQty] = useState(1);
@@ -32,7 +32,7 @@ const ProductScreen = ({ history, match }) => {
 	}, [match.params.id, dispatch]);
 
 	const handleAddToCart = () => {
-		dispatch(addToCart({ id: product._id, quantity: +qty, history }));
+		dispatch(addToCartAction({ id: product._id, quantity: +qty, history }));
 
 		// history.push(`/cart/${match.params.id}?qty=${qty}`);
 		// history.push('/cart');
@@ -72,7 +72,7 @@ const ProductScreen = ({ history, match }) => {
 						<ListGroup.Item>
 							<Rating rating={product.rating} reviews={product.numReviews} />
 						</ListGroup.Item>
-						<ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+						<ListGroup.Item>Price: &#8377;{Number(product.price).toLocaleString('en-IN')}</ListGroup.Item>
 						<ListGroup.Item>{product.description}</ListGroup.Item>
 					</ListGroup>
 				</Col>
@@ -83,7 +83,7 @@ const ProductScreen = ({ history, match }) => {
 								<Row>
 									<Col>Price:</Col>
 									<Col>
-										<strong>${product.price}</strong>
+										<strong>&#8377;{Number(product.price).toLocaleString('en-IN')}</strong>
 									</Col>
 								</Row>
 							</ListGroup.Item>

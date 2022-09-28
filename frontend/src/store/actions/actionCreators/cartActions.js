@@ -30,8 +30,8 @@ export const getUserCartAction = () => async (dispatch) => {
 	}
 };
 
-export const addToCart =
-	({ id, quantity, history }) =>
+export const addToCartAction =
+	({ id, quantity }) =>
 	async (dispatch) => {
 		try {
 			dispatch({
@@ -86,10 +86,55 @@ export const removeFromCart = (id) => async (dispatch, getState) => {
 	}
 };
 
-export const clearCart = () => (dispatch) => {
-	dispatch({
-		type: CLEAR_CART,
-	});
+export const clearCart = () => async (dispatch) => {
+	try {
+		dispatch({
+			type: 'ADD_CART_START',
+		});
+		const _token = localStorage.getItem('__JWT_TOKEN__');
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${_token}`,
+			},
+		};
+		const { data } = await axiosInstance.delete(`/users/cart`, config);
 
-	localStorage.setItem('cartItems', JSON.stringify([]));
+		dispatch({ type: 'ADD_CART_SUCCESS', payload: data?.cart });
+	} catch (error) {
+		console.log(error);
+		const { response, message } = error;
+		const { data } = response;
+		const payload = data.message ? data.message : message;
+
+		dispatch({ type: 'ADD_CART_FAIL', payload });
+	}
 };
+
+export const createPaymentorder = (reqBody) => async (dispatch) => {
+	console.log(reqBody)
+	try {
+		dispatch({
+			type: 'GET_CART_START',
+		});
+		const _token = localStorage.getItem('__JWT_TOKEN__');
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${_token}`,
+			},
+		};
+		const { data } = await axiosInstance.post('/payment/order', reqBody, config);
+
+		console.log(data);
+
+		dispatch({ type: 'GET_CART_SUCCESS', payload: [] });
+	} catch (error) {
+		console.log(error);
+		const { response, message } = error;
+		const { data } = response;
+		const payload = data.message ? data.message : message;
+
+		dispatch({ type: 'GET_CART_FAIL', payload });
+	}
+}

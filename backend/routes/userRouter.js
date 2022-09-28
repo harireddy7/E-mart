@@ -6,23 +6,36 @@ import {
 	getUserCart,
 	addToCart,
 	removeFromCart,
+	clearUserCart,
+	getShippingAddress,
+	saveShippingAddress,
+	removeShippingAddress,
 } from '../controllers/userController.js';
 import authorizeUser from '../middleware/authorizeUser.js';
 
 const router = express.Router();
 
+router.use(authorizeUser);
+
 // Get/Update User Profile
 router
 	.route('/profile')
-	.get(authorizeUser, getUserProfileById)
-	.put(authorizeUser, updateProfile);
+	.get(getUserProfileById)
+	.put(updateProfile);
 
-router.route('/profile/reset-password').put(authorizeUser, updatePassword);
+router.route('/profile/reset-password').put(updatePassword);
 
+// CART	
 router
 	.route('/cart')
-	.get(authorizeUser, getUserCart)
-	.post(authorizeUser, addToCart);
-router.route('/cart/:id').delete(authorizeUser, removeFromCart);
+	.get(getUserCart)
+	.post(addToCart)
+	.delete(clearUserCart);
+router.route('/cart/:id').delete(removeFromCart);
+
+// ADDRESS
+router.route('/shipping-address').get(getShippingAddress).post(saveShippingAddress)
+
+router.route('/shipping-address/:id').delete(removeShippingAddress)
 
 export default router;

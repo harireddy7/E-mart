@@ -34,6 +34,35 @@ const userSchema = mongoose.Schema(
 				},
 			},
 		],
+		shippingAddress: [
+			{
+				name: {
+					type: String,
+					required: true
+				},
+				address: {
+					type: String,
+					required: true
+				},
+				city: {
+					type: String,
+					required: true
+				},
+				postalCode: {
+					type: String,
+					required: true
+				},
+				country: {
+					type: String,
+					required: true
+				},
+				addressType: {
+					type: String,
+					required: true,
+					enum: ['HOME', 'OFFICE']
+				}
+			},
+		],
 	},
 	{
 		timestamp: true,

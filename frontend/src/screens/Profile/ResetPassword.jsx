@@ -9,7 +9,7 @@ import {
 	updateProfileAction,
 } from '../../store/actions/actionCreators/userActions';
 import FormContainer from '../../components/FormContainer';
-import { isUserLoggedIn } from '../../utils';
+import { getLoggedInUser } from '../../utils';
 import Message from '../../components/Message';
 
 const initState = {
@@ -33,7 +33,7 @@ const ResetPassword = ({ history }) => {
 	);
 	const { currentPassword, newPassword, confirmPassword, message } = state;
 
-	const _user = isUserLoggedIn();
+	const _user = getLoggedInUser();
 
 	React.useEffect(() => {
 		if (!userInfo && !_user) {

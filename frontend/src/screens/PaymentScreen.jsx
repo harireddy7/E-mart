@@ -3,13 +3,15 @@ import { Button, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import CheckoutSteps from '../components/CheckoutSteps';
 import FormContainer from '../components/FormContainer';
+import useLoadUser from '../hooks/useLoadUser';
 import { savePaymentMethod } from '../store/actions/actionCreators/userActions';
 
 const PaymentScreen = ({ history }) => {
-  const { paymentMethod: savedpaymentMethod } = useSelector(store => store.userPaymentMethod);
+  useLoadUser();
+  // const { paymentMethod: savedpaymentMethod } = useSelector(store => store.user);
   const dispatch = useDispatch();
 
-  const [paymentMethod, setPaymentMethod] = useState(savedpaymentMethod);
+  const [paymentMethod, setPaymentMethod] = useState();
   const submitHandler = e => {
     e.preventDefault();
     console.log(paymentMethod);

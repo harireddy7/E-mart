@@ -12,7 +12,7 @@ import PaymentScreen from './screens/PaymentScreen';
 import ProductScreen from './screens/Product/ProductScreen';
 import ProfileScreen from './screens/Profile/ProfileScreen';
 import RegisterScreen from './screens/Auth/RegisterScreen';
-import ShippingScreen from './screens/ShippingScreen';
+import ShippingScreen from './screens/Shipping/ShippingScreen';
 import OrdersScreen from './screens/OrdersScreen';
 import Footer from './components/Footer';
 import PersonalInfo from './screens/Profile/PersonalInfo';

@@ -6,7 +6,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import Loader from '../../components/Loader';
 import { getUserDetails, updateProfileAction } from '../../store/actions/actionCreators/userActions';
 import FormContainer from '../../components/FormContainer';
-import { isUserLoggedIn } from '../../utils';
+import { getLoggedInUser } from '../../utils';
 
 const initState = {
 	name: '',
@@ -26,7 +26,7 @@ const PersonalInfo = ({ history }) => {
 	);
 	const { name, email } = state;
 
-    const _user = isUserLoggedIn();
+    const _user = getLoggedInUser();
 
     React.useEffect(() => {
         console.log({ userInfo })

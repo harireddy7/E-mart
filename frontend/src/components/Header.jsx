@@ -5,7 +5,7 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { logoutAction } from '../store/actions/actionCreators/userActions';
-import { isUserLoggedIn } from '../utils';
+import { getLoggedInUser } from '../utils';
 
 const Header = () => {
   const location = useLocation();
@@ -16,7 +16,7 @@ const Header = () => {
   let userInfo = data;
 
   if (!userInfo) {
-    userInfo = isUserLoggedIn();
+    userInfo = getLoggedInUser();
   }
 
   const logoutHandler = () => {

@@ -9,6 +9,7 @@ import authRouter from './routes/authRouter.js'
 import userRouter from './routes/userRouter.js';
 import productRouter from './routes/productRouter.js';
 import orderRouter from './routes/orderRouter.js';
+import paymentRouter from './routes/paymentRouter.js';
 
 import { errorHandler, notFound } from './middleware/middleware.js';
 
@@ -33,6 +34,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users/', userRouter);
 app.use('/api/products', productRouter);
 app.use('/api/orders/', orderRouter);
+app.use('/api/payment', paymentRouter);
 
 // Deployment
 const __dirname = path.resolve();

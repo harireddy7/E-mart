@@ -16,13 +16,13 @@ const authorizeUser = asyncHandler(async (req, res, next) => {
       next();
     } catch (error) {
       res.status(401);
-      throw new Error('Not Authorized, invalid token');
+      throw new Error('Not Authorized, Please log in');
     }
   }
 
   if (!token) {
     res.status(401);
-    throw new Error('Not Authorized, no token found');
+    throw new Error('Not Authorized, Please log in');
   }
 });
 

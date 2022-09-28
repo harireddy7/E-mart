@@ -27,13 +27,13 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
         ) : (
           <Nav.Link disabled>Payment</Nav.Link>
         )}
-        {step4 ? (
+        {/* {step4 ? (
           <LinkContainer to="/placeorder">
             <Nav.Link>Place Order</Nav.Link>
           </LinkContainer>
         ) : (
           <Nav.Link disabled>Place Order</Nav.Link>
-        )}
+        )} */}
       </Nav>
     </Row>
   );

@@ -145,26 +145,57 @@ export const resetToDefaults = () => (dispatch) => {
 	dispatch({ type: USER_UPDATE_RESET });
 };
 
-export const saveShippingAddress = (address) => (dispatch) => {
-	dispatch({ type: USER_SHIPPING_ADDRESS, payload: address });
-
-	localStorage.setItem('shippingAddress', JSON.stringify(address));
-};
-
 export const savePaymentMethod = (method) => (dispatch) => {
 	dispatch({ type: USER_PAYMENT_METHOD, payload: method });
 
 	localStorage.setItem('paymentMethod', JSON.stringify(method));
 };
 
-export const addToCart = (cartItem) => (dispatch, getState) => {
-	const { product, qty } = cartItem;
-	const { _id: id, name, image, countInStock, price } = product;
-	const cartItem = { id, name, image, price, countInStock, qty };
-	dispatch({
-		type: 'ADD_ITEM_TO_CART',
-		payload: cartItem,
-	});
+export const getShippingAddressAction = () => async (dispatch) => {
+	const _token = localStorage.getItem('__JWT_TOKEN__');
 
-	localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
-};
+	try {
+		dispatch({ type: 'GET_ADDRESS_START' });
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${_token}`,
+			},
+		};
+		const { data } = await axiosInstance.get('/users/shipping-address', config);
+
+		console.log(data);
+		dispatch({ type: 'GET_ADDRESS_SUCCESS', payload: data.shippingAddress });
+	} catch (error) {
+		const { response, message } = error;
+		const { data } = response;
+		const payload = data.message ? data.message : message;
+
+		dispatch({ type: 'GET_ADDRESS_FAIL', payload });
+	}
+}
+
+export const saveShippingAddressAction = (shippingAddress, history) => async (dispatch) => {
+	const _token = localStorage.getItem('__JWT_TOKEN__');
+
+	try {
+		dispatch({ type: 'GET_ADDRESS_START' });
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${_token}`,
+			},
+		};
+		const { data } = await axiosInstance.post('/users/shipping-address', shippingAddress, config);
+
+		console.log(data);
+		dispatch({ type: 'GET_ADDRESS_SUCCESS', payload: data.shippingAddress });
+		// history.push('/payment');
+	} catch (error) {
+		const { response, message } = error;
+		const { data } = response;
+		const payload = data.message ? data.message : message;
+
+		dispatch({ type: 'GET_ADDRESS_FAIL', payload });
+	}
+}
