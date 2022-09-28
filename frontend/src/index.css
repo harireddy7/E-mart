@@ -8,6 +8,10 @@ main {
   cursor: pointer;
 }
 
+.max-width-800 {
+  max-width: 800px;
+}
+
 #alert-msg .close {
   padding: 0.25rem 1rem;
 }
@@ -16,6 +20,15 @@ main {
   order: 0;
 }
 
+.side-by-side {
+  width: 48% !important;
+}
+
+@media (max-width: 767px) {
+  .side-by-side {
+    width: 100% !important;
+  }
+}
 
 @media (max-width: 1199px) and (min-width: 768px) {
   .order-three {

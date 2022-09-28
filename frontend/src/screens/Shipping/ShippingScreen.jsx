@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Row } from 'react-bootstrap';
+import { Card, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import CheckoutSteps from '../../components/CheckoutSteps';
+import FormContainer from '../../components/FormContainer';
 import Loader from '../../components/Loader';
 
 import useLoadUser from '../../hooks/useLoadUser';
@@ -13,11 +15,14 @@ const ShippingScreen = ({ history }) => {
 	const { shippingAddress } = useSelector((store) => store.user);
 	const dispatch = useDispatch();
 
+	const [showShippingForm, setShowShippingForm] = React.useState(false);
+	const [selectedAddress, setSelectedAddress] = React.useState();
+
 	React.useEffect(() => {
 		if (!shippingAddress) {
 			dispatch(getShippingAddressAction());
 		}
-	}, [])
+	}, []);
 
 	const [address, setAddress] = useState(shippingAddress?.address);
 	const [city, setCity] = useState(shippingAddress?.city);
@@ -34,9 +39,38 @@ const ShippingScreen = ({ history }) => {
 	if (!shippingAddress) return <Loader />;
 
 	return (
-		<Row>
-			{shippingAddress.map(address => <ShippingCard key={address._id} address={address} />)}
-		</Row>
+		<FormContainer md={12}>
+			<CheckoutSteps step1={!userInfo} step2 />
+			<Row style={{ pointerEvents: showShippingForm ? 'none' : 'auto' }}>
+				{shippingAddress.map((address) => (
+					<ShippingCard
+						key={address._id}
+						address={address}
+						isSelected={address._id.toString() === selectedAddress}
+						onClick={(addressId) => setSelectedAddress(addressId)}
+						showShippingForm={showShippingForm}
+					/>
+				))}
+				<Card
+					style={{
+						minWidth: '220px',
+						borderRadius: '8px',
+						margin: '0.5em',
+						cursor: 'pointer',
+						border: '2px dashed #b8cdcc',
+					}}
+					onClick={() => setShowShippingForm(!showShippingForm)}
+				>
+					<Card.Body className='d-flex flex-column justify-content-center align-items-center'>
+						<Card.Text style={{ fontSize: '3rem', margin: 0, lineHeight: 1 }}>
+							+
+						</Card.Text>
+						<Card.Text>Add Address</Card.Text>
+					</Card.Body>
+				</Card>
+			</Row>
+			{showShippingForm && <ShippingForm closeForm={() => setShowShippingForm(false)} />}
+		</FormContainer>
 	);
 
 	// return <ShippingForm />

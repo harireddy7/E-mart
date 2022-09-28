@@ -20,6 +20,19 @@ import ResetPassword from './screens/Profile/ResetPassword';
 import SavedAddress from './screens/Profile/SavedAddress';
 
 const App = () => {
+  // Track screen width
+  // React.useEffect(() => {
+  //   window.addEventListener('resize', e => {
+  //     const docWidth = document.body.clientWidth;
+  //     if (docWidth < 576) console.log('xs');
+  //     if (docWidth >= 576 && docWidth < 768) console.log('sm');
+  //     if (docWidth >= 768 && docWidth < 992) console.log('md');
+  //     if (docWidth >= 992 && docWidth < 1200) console.log('lg');
+  //     if (docWidth >= 1200 && docWidth < 1400) console.log('xl');
+  //     if (docWidth >= 1400) console.log('xxl');
+  //   });
+  // }, [])
+
   return (
     <Router>
       <Header />
