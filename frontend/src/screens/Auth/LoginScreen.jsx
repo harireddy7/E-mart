@@ -34,17 +34,17 @@ const LoginScreen = ({ location, history }) => {
   };
 
   return (
-    <FormContainer>
+    <FormContainer className='my-4'>
       <h1>Login</h1>
       {actionMessage && actionMessage.type === 'error' && <Message variant="danger">{actionMessage.message}</Message>}
       {isLoading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="email">
+        <Form.Group controlId="email" className='my-4'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setState({ email: e.target.value })} />
         </Form.Group>
 
-        <Form.Group controlId="password">
+        <Form.Group controlId="password" className='my-4'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -54,8 +54,8 @@ const LoginScreen = ({ location, history }) => {
           />
         </Form.Group>
 
-        <Form.Group controlId="loginBtn">
-          <Button type="submit" disabled={ !email || !password }>Login</Button>
+        <Form.Group controlId="loginBtn" className='my-4'>
+          <Button type="submit" className='px-5' disabled={ !email || !password }>Login</Button>
         </Form.Group>
       </Form>
 

@@ -14,11 +14,12 @@ import ShippingForm from './ShippingForm';
 
 const ShippingScreen = ({ history }) => {
 	const userInfo = useLoadUser();
-	const { shippingAddress, selectedAddressId } = useSelector((store) => store.user);
+	const { shippingAddress, selectedAddressId } = useSelector(
+		(store) => store.user
+	);
 	const dispatch = useDispatch();
 
 	const [showShippingForm, setShowShippingForm] = React.useState(false);
-	const [selectedAddress, setSelectedAddress] = React.useState(selectedAddressId);
 
 	React.useEffect(() => {
 		if (!shippingAddress) {
@@ -26,14 +27,16 @@ const ShippingScreen = ({ history }) => {
 		}
 	}, []);
 
-	const submitHandler = (e) => {
-		e.preventDefault();
-		const _address = shippingAddress?.find(add => add._id === selectedAddress);
-		// console.log(_address);
+	const handleAddressSelection = (addressId) => {
+		const _address = shippingAddress?.find((add) => add._id === addressId);
 		dispatch({
 			type: 'SELECT_SHIPPING_ADDRESS',
-			payload: selectedAddress
+			payload: _address._id,
 		});
+	};
+
+	const submitHandler = (e) => {
+		e.preventDefault();
 		history.push('/payment');
 	};
 
@@ -46,23 +49,26 @@ const ShippingScreen = ({ history }) => {
 	return (
 		<FormContainer md={12}>
 			<CheckoutSteps step1={!userInfo} step2 step3={selectedAddressId} />
-			<Row style={{ pointerEvents: showShippingForm ? 'none' : 'auto' }}>
+			<Row
+				style={{
+					pointerEvents: showShippingForm ? 'none' : 'auto',
+					gap: '1rem',
+				}}
+				className='d-flex flex-wrap m-0'
+			>
 				{shippingAddress.map((address) => (
 					<ShippingCard
 						key={address._id}
 						address={address}
-						isSelected={address._id === selectedAddress}
-						onClick={(addressId) => setSelectedAddress(addressId)}
+						isSelected={address._id === selectedAddressId}
+						onClick={handleAddressSelection}
 						showShippingForm={showShippingForm}
 						handleRemove={removeAddress}
 					/>
 				))}
 				<Card
+					className='shipping-card'
 					style={{
-						minWidth: '220px',
-						borderRadius: '8px',
-						margin: '0.5em',
-						cursor: 'pointer',
 						border: '2px dashed #b8cdcc',
 					}}
 					onClick={() => setShowShippingForm(!showShippingForm)}
@@ -79,8 +85,14 @@ const ShippingScreen = ({ history }) => {
 			{showShippingForm ? (
 				<ShippingForm closeForm={() => setShowShippingForm(false)} />
 			) : (
-				<Row className='my-4'>
-					<Button className='my-4' disabled={ !selectedAddress } onClick={submitHandler}>Continue to payment</Button>
+				<Row className='m-0 my-4'>
+					<Button
+						className='my-4'
+						disabled={!selectedAddressId}
+						onClick={submitHandler}
+					>
+						Continue to payment
+					</Button>
 				</Row>
 			)}
 		</FormContainer>

@@ -19,15 +19,15 @@ const getCartPrice = items => {
 }
 
 const CartScreen = ({ history }) => {
-	useLoadUser();
+	const userInfo = useLoadUser();
 	const { cart: cartItems } = useSelector((store) => store.user);
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
-		if (!cartItems) {
+		if (!cartItems && userInfo) {
 			dispatch(getUserCartAction());
 		}
-	}, []);
+	}, [userInfo]);
 
 	const handleQtyChange = (quantity, productId) => {
 		dispatch(addToCartAction({ id: productId, quantity }));

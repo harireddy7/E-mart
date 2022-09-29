@@ -12,7 +12,7 @@ const useLoadUser = () => {
 	const _user = getLoggedInUser();
 
 	React.useEffect(() => {
-		console.log({ userInfo });
+		// console.log({ userInfo });
 
 		if (!userInfo && _user && _user._id) {
 			dispatch(getUserDetails(_user._id));

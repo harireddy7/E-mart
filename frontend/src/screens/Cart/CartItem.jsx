@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Form, Image, Row } from 'react-bootstrap';
+import { Button, Col, Form, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const CartItem = ({ cartItem, isReadOnly }) => {
@@ -7,21 +7,21 @@ const CartItem = ({ cartItem, isReadOnly }) => {
 		cartItem;
 	if (!product) return null;
 	return (
-		<Row key={_id} className='mb-1 align-items-center'>
-			<Col sm={3}>
+		<Row key={_id} className='mb-3 align-items-center'>
+			<Col xs={isReadOnly ? 5 : 4} sm={2} className='my-2'>
 				<Image
 					src={product.image}
 					fluid
 					className='rounded'
-					style={{ maxWidth: '90px' }}
+					// style={{ maxWidth: '90px' }}
 				/>
 			</Col>
-			<Col sm={isReadOnly ? 6 : 3}>
+			<Col xs={isReadOnly ? 7 : 8} sm={isReadOnly ? 6 : 4} className='my-2'>
 				<Link to={`/product/${product._id}`}>{product.name}</Link>
 			</Col>
-			<Col sm={isReadOnly ? 3 : 2}>&#8377;{product.price}{isReadOnly && ` x ${quantity}`}</Col>
+			<Col xs={isReadOnly ? 12 : 4} sm={isReadOnly ? 3 : 2} className='my-2'>&#8377;{product.price.toLocaleString('en-IN')}{isReadOnly && ` x ${quantity}`}</Col>
 			{!isReadOnly && (
-				<Col sm={3}>
+				<Col xs={4} sm={2} className='my-2'>
 					<Form.Control
 						as='select'
 						size='sm'
@@ -37,11 +37,12 @@ const CartItem = ({ cartItem, isReadOnly }) => {
 				</Col>
 			)}
 			{!isReadOnly && (
-				<Col sm={2}>
-					<i
-						className='fas fa-trash cursor-pointer'
+				<Col xs={4} sm={1} className='my-2'>
+					<Button
+						variant='link'
+						className='cursor-pointer p-0 text-danger'
 						onClick={() => handleRemoveProduct(product._id)}
-					></i>
+					>Remove</Button>
 				</Col>
 			)}
 		</Row>

@@ -1,16 +1,18 @@
 import React from 'react';
 import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
 
-const ShippingCard = ({ address, isSelected, onClick, showShippingForm, handleRemove }) => {
+const ShippingCard = ({
+	address,
+	isSelected,
+	onClick,
+	showShippingForm,
+	handleRemove,
+}) => {
 	return (
 		<Card
 			border={isSelected ? 'dark' : 'default'}
+			className='shipping-card'
 			style={{
-				minWidth: '220px',
-				maxWidth: '250px',
-				borderRadius: '8px',
-				margin: '0.5em',
-				cursor: 'pointer',
 				opacity: showShippingForm ? 0.5 : 1,
 			}}
 			onClick={() => onClick(address._id)}
@@ -32,8 +34,20 @@ const ShippingCard = ({ address, isSelected, onClick, showShippingForm, handleRe
 						</Badge>
 					</Row>
 					<Row className='mt-3'>
-						<Col><Button variant="light" size='sm'>Edit</Button></Col>
-						<Col><Button variant="light" size='sm' onClick={() => handleRemove(address._id)}>Remove</Button></Col>
+						<Col>
+							<Button variant='light' size='sm'>
+								Edit
+							</Button>
+						</Col>
+						<Col>
+							<Button
+								variant='light'
+								size='sm'
+								onClick={() => handleRemove(address._id)}
+							>
+								Remove
+							</Button>
+						</Col>
 					</Row>
 				</Row>
 			</Card.Body>

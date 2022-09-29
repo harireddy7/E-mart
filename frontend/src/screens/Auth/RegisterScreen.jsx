@@ -44,23 +44,23 @@ const RegisterScreen = ({ location, history }) => {
   };
 
   return (
-    <FormContainer>
+    <FormContainer className='my-4'>
       <h1>Register</h1>
       {actionMessage && actionMessage.type === 'error' && <Message variant="danger">{actionMessage.message}</Message>}
       {message && <Message variant="danger">{message}</Message>}
       {isLoading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="name">
+        <Form.Group controlId="name" className='my-4'>
           <Form.Label>Name</Form.Label>
           <Form.Control type="name" placeholder="Enter name" value={name} onChange={e => setState({ name: e.target.value })} />
         </Form.Group>
 
-        <Form.Group controlId="email">
+        <Form.Group controlId="email" className='my-4'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setState({ email: e.target.value })} />
         </Form.Group>
 
-        <Form.Group controlId="password">
+        <Form.Group controlId="password" className='my-4'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -70,7 +70,7 @@ const RegisterScreen = ({ location, history }) => {
           />
         </Form.Group>
 
-        <Form.Group controlId="confirmPassword">
+        <Form.Group controlId="confirmPassword" className='my-4'>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
@@ -80,12 +80,12 @@ const RegisterScreen = ({ location, history }) => {
           />
         </Form.Group>
 
-        <Form.Group controlId="registerBtn">
-          <Button type="submit" disabled={ !name || !email || !password || !confirmPassword || message }>Register</Button>
+        <Form.Group controlId="registerBtn" className='my-4'>
+          <Button type="submit" className='px-5' disabled={ !name || !email || !password || !confirmPassword || message }>Register</Button>
         </Form.Group>
       </Form>
 
-      <Row className="py-3">
+      <Row className="py-3 m-0">
         New User? <NavLink to={redirect ? `/login?redirect=${redirect}` : '/login'} style={{ marginLeft: '5px' }}>Login here!</NavLink>
       </Row>
     </FormContainer>

@@ -42,7 +42,7 @@ const App = () => {
     <Router>
       <Header />
       <main className="py-3">
-        <Container>
+        <Container id='main-container'>
           <Switch>
             <Route path="/login" component={LoginScreen} />
             <Route path="/register" component={RegisterScreen} />
