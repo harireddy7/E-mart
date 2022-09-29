@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, ListGroup, Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -8,11 +8,10 @@ import {
 	removeFromCart,
 	clearCart,
 	getUserCartAction,
-	createPaymentorder,
-} from '../store/actions/actionCreators/cartActions';
-import EmptyCartImg from '../assets/empty-cart.jpg';
-import axiosInstance from '../axiosInstance';
-import useLoadUser from '../hooks/useLoadUser';
+} from '../../store/actions/actionCreators/cartActions';
+import EmptyCartImg from '../../assets/empty-cart.jpg'
+import useLoadUser from '../../hooks/useLoadUser';
+import CartItem from './CartItem';
 
 const getCartPrice = items => {
   const actualPrice = Number(items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed());
@@ -85,40 +84,7 @@ const CartScreen = ({ history }) => {
 				<Row>
 					<Col lg={8} className='py-5'>
 						<ListGroup>
-							{console.log(cartItems)}
-							{cartItems.map(({ _id, product, quantity }) => (
-								<Row key={_id} className='mb-1'>
-									<Col sm={2}>
-										<Image src={product.image} fluid className='rounded' />
-									</Col>
-									<Col sm={3}>
-										<Link to={`/product/${product._id}`}>{product.name}</Link>
-									</Col>
-									<Col sm={2}>${product.price}</Col>
-									<Col sm={3}>
-										<Form.Control
-											as='select'
-											size='sm'
-											value={quantity}
-											onChange={(e) =>
-												handleQtyChange(+e.target.value, product._id)
-											}
-										>
-											{[...Array(product.countInStock).keys()].map((id) => (
-												<option key={id + 1} value={id + 1}>
-													{id + 1}
-												</option>
-											))}
-										</Form.Control>
-									</Col>
-									<Col sm={2}>
-										<i
-											className='fas fa-trash cursor-pointer'
-											onClick={() => handleRemoveProduct(product._id)}
-										></i>
-									</Col>
-								</Row>
-							))}
+							{cartItems.map(item => <CartItem cartItem={ item } key={ item._id } handleQtyChange={handleQtyChange} handleRemoveProduct={handleRemoveProduct} />)}
 						</ListGroup>
 					</Col>
 					<Col md={8} lg={4} className='py-5'>

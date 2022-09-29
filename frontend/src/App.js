@@ -4,20 +4,25 @@ import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
-import CartScreen from './screens/CartScreen';
-import HomeScreen from './screens/Home/HomeScreen';
 import LoginScreen from './screens/Auth/LoginScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
-import PaymentScreen from './screens/PaymentScreen';
-import ProductScreen from './screens/Product/ProductScreen';
-import ProfileScreen from './screens/Profile/ProfileScreen';
 import RegisterScreen from './screens/Auth/RegisterScreen';
+
+import HomeScreen from './screens/Home/HomeScreen';
+import ProductScreen from './screens/Product/ProductScreen';
+
+import CartScreen from './screens/Cart/CartScreen';
 import ShippingScreen from './screens/Shipping/ShippingScreen';
-import OrdersScreen from './screens/OrdersScreen';
-import Footer from './components/Footer';
+import PaymentScreen from './screens/Payment/PaymentScreen';
+
+
+import ProfileScreen from './screens/Profile/ProfileScreen';
 import PersonalInfo from './screens/Profile/PersonalInfo';
 import ResetPassword from './screens/Profile/ResetPassword';
 import SavedAddress from './screens/Profile/SavedAddress';
+
+import OrdersScreen from './screens/OrdersScreen';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import Footer from './components/Footer';
 
 const App = () => {
   // Track screen width

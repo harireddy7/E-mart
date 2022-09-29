@@ -29,7 +29,7 @@ const ShippingScreen = ({ history }) => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		const _address = shippingAddress?.find(add => add._id === selectedAddress);
-		console.log(_address);
+		// console.log(_address);
 		dispatch({
 			type: 'SELECT_SHIPPING_ADDRESS',
 			payload: selectedAddress

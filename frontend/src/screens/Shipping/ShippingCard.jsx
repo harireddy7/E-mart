@@ -24,7 +24,7 @@ const ShippingCard = ({ address, isSelected, onClick, showShippingForm, handleRe
 							{address.city}, {address.country}, {address.postalCod}
 						</Card.Text>
 						<Badge
-							variant={address.addressType === 'HOME' ? 'dark' : 'success'}
+							bg={address.addressType === 'HOME' ? 'success' : 'warning'}
 							pill
 							style={{ maxWidth: '70px' }}
 						>

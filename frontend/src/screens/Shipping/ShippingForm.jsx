@@ -40,14 +40,8 @@ const ShippingForm = ({ closeForm }) => {
 		<FormContainer className='my-5 mx-0 max-width-800' xs={12} md={12}>
 			<Row className='justify-content-between m-0'>
 				<h3>Add new address</h3>
-				<Button className='btn mb-2' size='sm' variant='danger' onClick={closeForm}>
-					Close and select saved address
-				</Button>
 			</Row>
-			<Form
-				onSubmit={submitHandler}
-				className='mt-3'
-			>
+			<Form onSubmit={submitHandler} className='mt-3'>
 				<Form.Group controlId='name'>
 					<Form.Label>Name</Form.Label>
 					<Form.Control
@@ -111,11 +105,18 @@ const ShippingForm = ({ closeForm }) => {
 
 				<Form.Group controlId='continueBtn'>
 					<Button
+						className='mt-3'
+						variant='light'
+						onClick={closeForm}
+					>
+						Close and select saved address
+					</Button>
+					<Button
 						type='submit'
-						className='px-5 mt-3'
+						className='px-5 mt-3 ml-2'
 						disabled={!enableContinue}
 					>
-						Save Address
+						Save and deliver here
 					</Button>
 				</Form.Group>
 			</Form>
