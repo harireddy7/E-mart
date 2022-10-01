@@ -21,6 +21,13 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
 					<Nav.Link disabled>Shipping</Nav.Link>
 				)}
 				{step3 ? (
+					<LinkContainer to='/order-summary'>
+						<Nav.Link>Order Summary</Nav.Link>
+					</LinkContainer>
+				) : (
+					<Nav.Link disabled>Order Summary</Nav.Link>
+				)}
+				{step4 ? (
 					<LinkContainer to='/payment'>
 						<Nav.Link>Payment</Nav.Link>
 					</LinkContainer>

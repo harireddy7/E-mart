@@ -12,11 +12,7 @@ import {
 import EmptyCartImg from '../../assets/empty-cart.jpg'
 import useLoadUser from '../../hooks/useLoadUser';
 import CartItem from './CartItem';
-
-const getCartPrice = items => {
-  const actualPrice = Number(items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed());
-  return { actualPrice, formattedPrice: actualPrice.toLocaleString('en-IN') };
-}
+import { getCartPrice } from '../../utils';
 
 const CartScreen = ({ history }) => {
 	const userInfo = useLoadUser();

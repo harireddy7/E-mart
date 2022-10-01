@@ -20,17 +20,18 @@ export const createRazorpayOrder = asyncHandler(async (req, res) => {
 		throw new Error('No order items found!');
 		return;
 	} else {
+		const orderDetails = orderItems.map((item) => ({
+			quantity: item.quantity,
+			productId: item.product._id,
+			price: item.product.price,
+			userId: item.product.user,
+		}));
 		const orderOptions = {
 			amount: totalPrice * 100,
 			currency: 'INR',
 			receipt: 'receipt#1',
 			notes: {
-				orderItems: JSON.stringify(orderItems),
-				// shippingAddress,
-				// paymentMethod,
-				// itemsPrice,
-				// taxPrice,
-				// shippingPrice,
+				orderItems: JSON.stringify(orderDetails),
 				totalPrice,
 				user: req.user._id.toString(),
 			},

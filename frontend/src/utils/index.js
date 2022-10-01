@@ -9,6 +9,11 @@ const getLoggedInUser = () => {
 	return null;
 };
 
+const getCartPrice = items => {
+	const actualPrice = Number(items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed());
+	return { actualPrice, formattedPrice: actualPrice.toLocaleString('en-IN') };
+}
+
 function loadScript(src) {
 	return new Promise((resolve) => {
 		const script = document.createElement('script');
@@ -81,4 +86,4 @@ async function createOrderAndShowRazorpay(orderData) {
 	paymentObject.open();
 }
 
-export { getLoggedInUser, createOrderAndShowRazorpay };
+export { getLoggedInUser, getCartPrice, createOrderAndShowRazorpay };

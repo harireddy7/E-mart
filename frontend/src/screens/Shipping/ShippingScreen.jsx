@@ -37,7 +37,7 @@ const ShippingScreen = ({ history }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		history.push('/payment');
+		history.push('/order-summary');
 	};
 
 	const removeAddress = (id) => {
@@ -47,7 +47,7 @@ const ShippingScreen = ({ history }) => {
 	if (!shippingAddress) return <Loader />;
 
 	return (
-		<FormContainer md={12}>
+		<FormContainer md={12} className='checkout-container'>
 			<CheckoutSteps step1={!userInfo} step2 step3={selectedAddressId} />
 			<Row
 				style={{
@@ -91,7 +91,7 @@ const ShippingScreen = ({ history }) => {
 						disabled={!selectedAddressId}
 						onClick={submitHandler}
 					>
-						Continue to payment
+						View order summary
 					</Button>
 				</Row>
 			)}

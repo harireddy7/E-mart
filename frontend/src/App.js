@@ -23,6 +23,7 @@ import SavedAddress from './screens/Profile/SavedAddress';
 import OrdersScreen from './screens/OrdersScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import Footer from './components/Footer';
+import OrderSummary from './screens/OrderSummary/OrderSummary';
 
 const App = () => {
   // Track screen width
@@ -51,6 +52,7 @@ const App = () => {
             <Route path="/profile/reset-password" component={ResetPassword} />
             <Route path="/profile/saved-address" component={SavedAddress} />
             <Route path="/shipping" component={ShippingScreen} />
+            <Route path='/order-summary' component={OrderSummary} />
             <Route path="/payment" component={PaymentScreen} />
             <Route path="/placeorder" component={PlaceOrderScreen} />
             <Route path="/product/:id" component={ProductScreen} />
