@@ -29,7 +29,7 @@ export const createRazorpayOrder = asyncHandler(async (req, res) => {
 		const orderOptions = {
 			amount: totalPrice * 100,
 			currency: 'INR',
-			receipt: 'receipt#1',
+			receipt: Date.now(),
 			notes: {
 				orderItems: JSON.stringify(orderDetails),
 				totalPrice,
@@ -47,3 +47,27 @@ export const createRazorpayOrder = asyncHandler(async (req, res) => {
 		}
 	}
 });
+
+export const storePaymentInfo = asyncHandler(async (req, res) => {
+	const user = req.user;
+	const { orderItems, totalPrice, shippingAddress, paymentInfo } = req.body;
+	const newOrderItem = {
+		user: user._id,
+		orderItems,
+		totalPrice,
+		shippingAddress,
+		paymentInfo,
+		isPaid: true,
+		paidAt: Date.now(),
+		isDelivered: false,
+	}
+	const savedOrder = await Order.create(newOrderItem);
+	
+	if (savedOrder) {
+		res.status(201).json(savedOrder);
+	} else {
+		res.status(400);
+		throw new Error('Payment not stored, invalid payment data!');
+	}
+})
+

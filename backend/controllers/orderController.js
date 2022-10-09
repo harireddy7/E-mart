@@ -59,9 +59,6 @@ export const createOrderItems = asyncHandler(async (req, res) => {
 });
 
 export const getOrderItems = asyncHandler(async (req, res) => {
-  // const {} = req.body;
-
-  const orders = await Order.find({ user: req.user._id });
-
+  const orders = await Order.find({ user: req.user._id }).sort({ paidAt: -1 });
   res.status(200).json(orders);
 })

@@ -2,9 +2,8 @@ import React from 'react';
 import { Button, Col, Form, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const CartItem = ({ cartItem, isReadOnly }) => {
-	const { _id, product, quantity, handleQtyChange, handleRemoveProduct } =
-		cartItem;
+const CartItem = ({ cartItem, handleQtyChange, handleRemoveProduct, isReadOnly }) => {
+	const { _id, product, quantity  } = cartItem;
 	if (!product) return null;
 	return (
 		<Row key={_id} className='mb-3 align-items-center'>

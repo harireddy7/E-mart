@@ -16,8 +16,10 @@ import Rating from '../../components/Rating';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { addToCartAction } from '../../store/actions/actionCreators/cartActions';
+import { getLoggedInUser } from '../../utils';
 
 const ProductScreen = ({ history, match }) => {
+	const loggedUser = getLoggedInUser();
 	const [qty, setQty] = useState(1);
 
 	const dispatch = useDispatch();
@@ -32,10 +34,10 @@ const ProductScreen = ({ history, match }) => {
 	}, [match.params.id, dispatch]);
 
 	const handleAddToCart = () => {
+		if (!loggedUser) {
+			return history.push(`/login?redirect=product/${product._id}`);
+		}
 		dispatch(addToCartAction({ id: product._id, quantity: +qty, history }));
-
-		// history.push(`/cart/${match.params.id}?qty=${qty}`);
-		// history.push('/cart');
 	};
 
 	if (isLoading) return <Loader />;

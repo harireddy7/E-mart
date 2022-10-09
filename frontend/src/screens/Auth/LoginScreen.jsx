@@ -18,12 +18,14 @@ const LoginScreen = ({ location, history }) => {
   const { email, password } = state;
 
   const { isLoading, actionMessage, data: userInfo } = useSelector(store => store.user);
+  const _token = localStorage.getItem('__JWT_TOKEN__');
+  const loggedUser = localStorage.getItem('__LUSER__');
   const dispath = useDispatch();
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && _token && loggedUser) {
       history.push(redirect);
     }
   }, [userInfo, history, redirect]);

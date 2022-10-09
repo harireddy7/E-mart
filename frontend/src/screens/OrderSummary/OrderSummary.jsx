@@ -35,8 +35,12 @@ const OrderSummary = ({ history }) => {
 
 	const submitHandler = () => {
 		// load razorpay script and pay
-		const orderData = { orderItems: cartItems, totalPrice: getCartPrice(cartItems).actualPrice };
-		createOrderAndShowRazorpay(orderData);
+		const orderData = {
+			orderItems: cartItems.map(item => ({ ...item, price: item.product.price })),
+			totalPrice: getCartPrice(cartItems).actualPrice,
+			shippingAddress: selectedAddress,
+		};
+		createOrderAndShowRazorpay(orderData, history);
 	};
 
 	return (

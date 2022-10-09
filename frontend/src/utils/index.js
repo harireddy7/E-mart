@@ -28,7 +28,7 @@ function loadScript(src) {
 	});
 }
 
-async function createOrderAndShowRazorpay(orderData) {
+async function createOrderAndShowRazorpay(orderData, history) {
 	const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
 
 	if (!res) {
@@ -37,6 +37,7 @@ async function createOrderAndShowRazorpay(orderData) {
 	}
 
 	const _token = localStorage.getItem('__JWT_TOKEN__');
+	const _user = getLoggedInUser();
 	const config = {
 		headers: {
 			'Content-Type': 'application/json',
@@ -48,7 +49,7 @@ async function createOrderAndShowRazorpay(orderData) {
 	const response = await axiosInstance.post('/payment/order', orderData, config);
 
 	if (!response) {
-		alert('Server error. Are you online?');
+		alert('Server error. try again!');
 		return;
 	}
 
@@ -58,27 +59,33 @@ async function createOrderAndShowRazorpay(orderData) {
 	const options = {
 		key: process.env.REACT_APP_RAZORPAY_KEY_ID,
 		amount: amount.toString(),
-		currency: currency,
+		currency,
 		name: 'Tech Prism',
-		description: 'checking out from cart',
+		description: `Payment for ${_user.name}`,
 		order_id: order_id,
 		handler: async function (response) {
-			const data = {
-				orderCreationId: order_id,
-				razorpayPaymentId: response.razorpay_payment_id,
-				razorpayOrderId: response.razorpay_order_id,
-				razorpaySignature: response.razorpay_signature,
+			const paymentInfo = {
+				orderId: order_id,
+				paymentId: response.razorpay_payment_id,
+				paymentOrderId: response.razorpay_order_id,
+				signature: response.razorpay_signature,
 			};
-
-			console.log(data);
-
-			// const result = await axios.post(
-			// 	'http://localhost:5000/payment/success',
-			// 	data
-			// );
-
-			// alert(result.data.msg);
-			console.log('Payment successful');
+			try {
+				const orderItem = {
+					...orderData,
+					paymentInfo,
+				}
+				console.log(orderItem)
+	
+				const { data: userOrder } = await axiosInstance.post('/payment', orderItem, config);
+	
+				console.log('Payment successful');
+				console.log(userOrder);
+				history.push('/orders');
+			} catch(err) {
+				console.log(err);
+				console.log('Payment call to server failed');
+			}
 		},
 	};
 

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import CheckoutSteps from '../components/CheckoutSteps';
 import FormContainer from '../components/FormContainer';
-import { orderCreateAction } from '../store/actions/actionCreators/orderActions';
+
 import Message from '../components/Message';
 
 const PlaceOrderScreen = ({ history }) => {
@@ -58,7 +58,7 @@ const PlaceOrderScreen = ({ history }) => {
       taxPrice,
       totalPrice
     };
-    dispatch(orderCreateAction(order));
+    // dispatch(orderCreateAction(order));
   };
 
   return (

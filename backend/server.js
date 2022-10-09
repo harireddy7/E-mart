@@ -33,8 +33,8 @@ app.use(
 app.use('/api/auth', authRouter);
 app.use('/api/users/', userRouter);
 app.use('/api/products', productRouter);
-app.use('/api/orders/', orderRouter);
 app.use('/api/payment', paymentRouter);
+app.use('/api/orders', orderRouter);
 
 // Deployment
 const __dirname = path.resolve();

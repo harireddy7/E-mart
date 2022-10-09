@@ -31,13 +31,14 @@ export const getUserCartAction = () => async (dispatch) => {
 };
 
 export const addToCartAction =
-	({ id, quantity }) =>
+	({ id, quantity, history }) =>
 	async (dispatch) => {
 		try {
+			const _token = localStorage.getItem('__JWT_TOKEN__');
+			if (!_token) return history.push(`/login?redirect=product/${id}`);
 			dispatch({
 				type: 'ADD_CART_START',
 			});
-			const _token = localStorage.getItem('__JWT_TOKEN__');
 			const config = {
 				headers: {
 					'Content-Type': 'application/json',

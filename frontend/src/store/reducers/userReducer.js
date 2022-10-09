@@ -10,7 +10,7 @@ const initialState = {
 	actionMessage: null,
 	data: null,
 	cart: null,
-	orders: [],
+	orders: null,
 	shippingAddress: null,
 	selectedAddressId: null,
 };
@@ -20,18 +20,9 @@ const userReducer = (state = initialState, action) => {
 		case GET_USER_START:
 		case 'GET_CART_START':
 		case 'ADD_CART_START':
+		case 'GET_ADDRESS_START':
 		case 'GET_ADDRESS_START': {
 			return { ...state, isLoading: true };
-		}
-		case GET_USER_FAIL: {
-			return {
-				...state,
-				isLoading: false,
-				actionMessage: {
-					type: 'error',
-					message: action.payload,
-				},
-			};
 		}
 		case GET_USER_SUCCESS: {
 			return {
@@ -52,8 +43,11 @@ const userReducer = (state = initialState, action) => {
 				cart: action.payload,
 			};
 		}
+		case GET_USER_FAIL:
 		case 'GET_CART_FAIL':
-		case 'ADD_CART_FAIL': {
+		case 'ADD_CART_FAIL':
+		case 'GET_ADDRESS_FAIL':
+		case 'GET_ORDERS_FAIL': {
 			return {
 				...state,
 				isLoading: false,
@@ -71,20 +65,16 @@ const userReducer = (state = initialState, action) => {
 				shippingAddress: action.payload
 			}
 		}
-		case 'GET_ADDRESS_FAIL': {
-			return {
-				...state,
-				isLoading: false,
-				actionMessage: {
-					type: 'error',
-					message: action.payload,
-				},
-			};
-		}
 		case 'SELECT_SHIPPING_ADDRESS': {
 			return {
 				...state,
 				selectedAddressId: action.payload,
+			}
+		}
+		case 'GET_ORDERS_SUCCESS': {
+			return {
+				...state,
+				orders: action.payload,
 			}
 		}
 		default:

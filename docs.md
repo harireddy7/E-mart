@@ -18,6 +18,12 @@
    4. Save order details & payment details to db
 5. Orders
    1. Show user orders, recent first
+   2. click to show complete order details
+6. dynamic page titles
+7. oAuth login integration
+8. Admin screens
+9. Product search
+10. Product pagination
 
 
 ## Features
@@ -47,16 +53,9 @@ store = {
 
 
 
+bugs::
 
-
-
-
-Update Personal Info
-
-Update Password
-
-Update Saved Address
-
+add to cart w/o signing ✅
 
 
 
@@ -68,11 +67,11 @@ Cart
 
         shipping address
 
-        billing address
+        ?billing address
 
         Pay via Razorpay
 
-            create order in razorpay
+            create order in razorpay with node
                 return order_id & order details
                 show razorpay payment popup
                     success
