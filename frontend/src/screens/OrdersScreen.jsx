@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Table } from 'react-bootstrap';
+import { Badge, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrdersAction } from '../store/actions/actionCreators/orderActions';
 
@@ -16,34 +16,53 @@ const OrdersScreen = ({ history }) => {
 	if (!orders) return <div>OrdersScreen</div>;
 
 	return (
-		<Table striped bordered hover>
-			<thead>
-				<tr>
-					<th>Product(s)</th>
-					<th>Total</th>
-					<th>Order Date</th>
-					<th>Paid</th>
-					<th>Delivered</th>
-				</tr>
-			</thead>
-			<tbody>
-				{orders.map((order) => (
-					<tr key={order._id}>
-						<td>
-							<Image
-								src={order.orderItems[0].product.image}
-								style={{ maxWidth: '70px', border: '2px solid #fff' }}
-							/>
-              <span className='ml-3'>{order.orderItems.length > 1 ? `+ ${order.orderItems.length - 1}` : ''}</span>
-						</td>
-						<td>{order.totalPrice.toLocaleString('en-IN')}</td>
-            <td>{new Date(order.paidAt).toString().substring(0, 24)}</td>
-						<td>{order.isPaid ? 'Yes' : 'No'}</td>
-						<td>{order.isDelivered ? 'Yes' : 'No'}</td>
-					</tr>
-				))}
-			</tbody>
-		</Table>
+		<>
+			{orders.map((order) => (
+				<Card key={order._id} className='my-4'>
+					<Card.Header as='h6'>
+						<div>
+							Status:
+							<Badge bg='warning' pill style={{ padding: '5px 6px 4px 8px' }}>
+								Dispatched
+							</Badge>
+						</div>
+						<div className='mt-2'>
+							Total Price: {order.totalPrice.toLocaleString('en-IN')}
+						</div>
+						<div className='mt-2 small'>Order #{order._id}</div>
+					</Card.Header>
+					<Card.Body>
+						<hr />
+						<div className='d-flex flex-wrap'>
+							{order.orderItems.map((item) => (
+								<div className='d-flex flex-column m-2'>
+									<Card.Img
+										src={item.product.image}
+										style={{ maxWidth: '150px' }}
+									/>
+									<Card.Title className='mt-3'>{item.product.name}</Card.Title>
+								</div>
+							))}
+						</div>
+						<Card.Text>
+							Ordered on {new Date(order.paidAt).toDateString()}
+						</Card.Text>
+						<Card.Text>
+							Will be delivered to{' '}
+							<span className='font-weight-bold'>
+								{order.shippingAddress.name}({order.shippingAddress.addressType}
+								)
+							</span>
+						</Card.Text>
+						<Card.Text>
+							Address: {order.shippingAddress.address},{' '}
+							{order.shippingAddress.city}, {order.shippingAddress.postalCode},{' '}
+							{order.shippingAddress.country}
+						</Card.Text>
+					</Card.Body>
+				</Card>
+			))}
+		</>
 	);
 };
 

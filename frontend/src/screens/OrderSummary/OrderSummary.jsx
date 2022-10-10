@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Card, ListGroup, Button, Row, Col, Image } from 'react-bootstrap';
 import Stack from 'react-bootstrap/Stack';
 import Loader from '../../components/Loader';
@@ -22,6 +22,8 @@ const OrderSummary = ({ history }) => {
 		(add) => add._id === selectedAddressId
 	);
 
+	const dispatch = useDispatch();
+
 	React.useEffect(() => {
 		if (!cartItems) {
 			return history.push('/cart');
@@ -40,7 +42,7 @@ const OrderSummary = ({ history }) => {
 			totalPrice: getCartPrice(cartItems).actualPrice,
 			shippingAddress: selectedAddress,
 		};
-		createOrderAndShowRazorpay(orderData, history);
+		createOrderAndShowRazorpay(orderData, dispatch, history);
 	};
 
 	return (

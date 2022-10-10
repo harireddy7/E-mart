@@ -1,4 +1,5 @@
 import axiosInstance from '../axiosInstance';
+import { clearCart } from '../store/actions/actionCreators/cartActions';
 
 const getLoggedInUser = () => {
 	const _token = localStorage.getItem('__JWT_TOKEN__');
@@ -28,7 +29,7 @@ function loadScript(src) {
 	});
 }
 
-async function createOrderAndShowRazorpay(orderData, history) {
+async function createOrderAndShowRazorpay(orderData, dispatch, history) {
 	const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
 
 	if (!res) {
@@ -81,6 +82,7 @@ async function createOrderAndShowRazorpay(orderData, history) {
 	
 				console.log('Payment successful');
 				console.log(userOrder);
+				await dispatch(clearCart());
 				history.push('/orders');
 			} catch(err) {
 				console.log(err);

@@ -15,10 +15,9 @@
    1. Add to cart ✅
    2. remove from cart ✅
    3. checkout from cart ✅
-   4. Save order details & payment details to db
+   4. Save order details & payment details to db ✅
 5. Orders
-   1. Show user orders, recent first
-   2. click to show complete order details
+   1. Show user orders, recent first ✅
 6. dynamic page titles
 7. oAuth login integration
 8. Admin screens
