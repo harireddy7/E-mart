@@ -197,7 +197,7 @@ export const saveShippingAddressAction = (shippingAddress, history) => async (di
 			type: 'SELECT_SHIPPING_ADDRESS',
 			payload: _address._id
 		});
-		history.push('/payment');
+		history.push('/order-summary');
 	} catch (error) {
 		const { response, message } = error;
 		const { data } = response;
