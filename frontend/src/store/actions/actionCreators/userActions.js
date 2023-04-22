@@ -164,7 +164,7 @@ export const getShippingAddressAction = () => async (dispatch) => {
 		};
 		const { data } = await axiosInstance.get('/users/shipping-address', config);
 
-		console.log(data);
+		// console.log(data);
 		dispatch({ type: 'GET_ADDRESS_SUCCESS', payload: data.shippingAddress });
 	} catch (error) {
 		const { response, message } = error;

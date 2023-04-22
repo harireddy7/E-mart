@@ -76,12 +76,12 @@ async function createOrderAndShowRazorpay(orderData, dispatch, history) {
 					...orderData,
 					paymentInfo,
 				}
-				console.log(orderItem)
+				// console.log(orderItem)
 	
 				const { data: userOrder } = await axiosInstance.post('/payment', orderItem, config);
 	
 				console.log('Payment successful');
-				console.log(userOrder);
+				// console.log(userOrder);
 				await dispatch(clearCart());
 				history.push('/orders');
 			} catch(err) {

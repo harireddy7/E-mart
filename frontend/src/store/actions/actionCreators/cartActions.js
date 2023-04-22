@@ -113,7 +113,7 @@ export const clearCart = () => async (dispatch) => {
 };
 
 export const createPaymentorder = (reqBody) => async (dispatch) => {
-	console.log(reqBody)
+	// console.log(reqBody)
 	try {
 		dispatch({
 			type: 'GET_CART_START',
@@ -127,7 +127,7 @@ export const createPaymentorder = (reqBody) => async (dispatch) => {
 		};
 		const { data } = await axiosInstance.post('/payment/order', reqBody, config);
 
-		console.log(data);
+		// console.log(data);
 
 		dispatch({ type: 'GET_CART_SUCCESS', payload: [] });
 	} catch (error) {

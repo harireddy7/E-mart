@@ -71,7 +71,6 @@ const orderSchema = mongoose.Schema(
 );
 
 orderSchema.pre(/^find/, function () {
-  console.log(this);
   this.populate({ path: 'orderItems', populate: 'product' });
 });
 
