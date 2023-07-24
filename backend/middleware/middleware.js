@@ -6,7 +6,7 @@ const notFound = (req, res, next) => {
 const errorHandler = (err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   let message = err.message;
-  if (req.route.path === '/:productId') {
+  if (req.route?.path === '/:productId') {
     message = 'Product not found';
   }
   res

@@ -2,16 +2,13 @@ import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import colors from 'colors';
-import connectDB from './config/db.js';
+import 'colors';
 
-import authRouter from './routes/authRouter.js'
-import userRouter from './routes/userRouter.js';
-import productRouter from './routes/productRouter.js';
-import orderRouter from './routes/orderRouter.js';
-import paymentRouter from './routes/paymentRouter.js';
+import connectDB from './config/db.js';
+import apiRouter from './routes/index.js';
 
 import { errorHandler, notFound } from './middleware/middleware.js';
+import { API_VERSION } from './utils/constants.js';
 
 dotenv.config();
 
@@ -21,7 +18,6 @@ const app = express();
 
 app.use(express.json());
 
-
 // CORS
 app.use(
 	cors({
@@ -29,14 +25,10 @@ app.use(
 	})
 );
 
-// ROUTES
-app.use('/api/auth', authRouter);
-app.use('/api/users/', userRouter);
-app.use('/api/products', productRouter);
-app.use('/api/payment', paymentRouter);
-app.use('/api/orders', orderRouter);
+// API
+app.use(API_VERSION, apiRouter)
 
-// Deployment
+// STATIC FILES
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {
@@ -53,6 +45,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // Not Found Route
 app.use(notFound);
+
 // Error Handler for Express
 // Express handles any route with four arguments as error handling middleware
 app.use(errorHandler);

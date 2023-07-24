@@ -1,6 +1,77 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     RegisterUser:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           default: jonsnow@got.com
+ *         name:
+ *           type: string
+ *           default: testuser
+ *         password:
+ *           type: string
+ *           default: hello1234
+ *     RegisterUserSuccess:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         email:
+ *           type: string
+ *         name:
+ *           type: string
+ *         token:
+ *           type: string
+ *         isAdmin:
+ *           type: boolean
+ *           default: false
+ *     ErrorMsgStack:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *         stack:
+ *           type: string
+ *     LoginUser:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           default: jonsnow@got.com
+ *         password:
+ *           type: string
+ *           default: hello1234
+ *     LoginUser400:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           default: Missing email or password
+ *         stack:
+ *           type: string
+ *     LoginUser401:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           default: Invalid email or password
+ *         stack:
+ *           type: string
+ * 
+ */
 const userSchema = mongoose.Schema(
 	{
 		name: {
