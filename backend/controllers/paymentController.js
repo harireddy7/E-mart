@@ -10,7 +10,7 @@ const razorpayOptions = {
 	key_secret: process.env.RAZORPAY_KEY_SECRET,
 };
 
-var instance = new Razorpay(razorpayOptions);
+const instance = new Razorpay(razorpayOptions);
 
 export const createRazorpayOrder = asyncHandler(async (req, res) => {
 	const { orderItems, totalPrice } = req.body;
@@ -29,7 +29,7 @@ export const createRazorpayOrder = asyncHandler(async (req, res) => {
 		const orderOptions = {
 			amount: totalPrice * 100,
 			currency: 'INR',
-			receipt: Date.now(),
+			receipt: Date.now().toString(),
 			notes: {
 				orderItems: JSON.stringify(orderDetails),
 				totalPrice,
@@ -60,14 +60,13 @@ export const storePaymentInfo = asyncHandler(async (req, res) => {
 		isPaid: true,
 		paidAt: Date.now(),
 		isDelivered: false,
-	}
+	};
 	const savedOrder = await Order.create(newOrderItem);
-	
+
 	if (savedOrder) {
 		res.status(201).json(savedOrder);
 	} else {
 		res.status(400);
 		throw new Error('Payment not stored, invalid payment data!');
 	}
-})
-
+});
