@@ -1,25 +1,19 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 import Header from './components/Header';
 import LoginScreen from './screens/Auth/LoginScreen';
 import RegisterScreen from './screens/Auth/RegisterScreen';
-
+import OIDCAuthCallback from './screens/Auth/OIDCAuthCallback';
 import HomeScreen from './screens/Home/HomeScreen';
 import ProductScreen from './screens/Product/ProductScreen';
-
 import CartScreen from './screens/Cart/CartScreen';
 import ShippingScreen from './screens/Shipping/ShippingScreen';
 import PaymentScreen from './screens/Payment/PaymentScreen';
-
-
 import ProfileScreen from './screens/Profile/ProfileScreen';
 import PersonalInfo from './screens/Profile/PersonalInfo';
 import ResetPassword from './screens/Profile/ResetPassword';
 import SavedAddress from './screens/Profile/SavedAddress';
-
 import OrdersScreen from './screens/OrdersScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import Footer from './components/Footer';
@@ -58,6 +52,7 @@ const App = () => {
             <Route path="/product/:id" component={ProductScreen} />
             <Route path="/cart/:id?" component={CartScreen} />
             <Route path="/orders/:id?" component={OrdersScreen} />
+            <Route path="/callback" component={OIDCAuthCallback} />
             <Route path="/" exact component={HomeScreen} />
           </Switch>
         </Container>
