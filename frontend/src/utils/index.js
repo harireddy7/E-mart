@@ -10,33 +10,16 @@ const getLoggedInUser = () => {
 	return null;
 };
 
-const getCartPrice = items => {
-	const actualPrice = Number(items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed());
+const getCartPrice = (items) => {
+	const actualPrice = Number(
+		items
+			.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+			.toFixed(),
+	);
 	return { actualPrice, formattedPrice: actualPrice.toLocaleString('en-IN') };
-}
-
-function loadScript(src) {
-	return new Promise((resolve) => {
-		const script = document.createElement('script');
-		script.src = src;
-		script.onload = () => {
-			resolve(true);
-		};
-		script.onerror = () => {
-			resolve(false);
-		};
-		document.body.appendChild(script);
-	});
-}
+};
 
 async function createOrderAndShowRazorpay(orderData, dispatch, history) {
-	const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
-
-	if (!res) {
-		alert('Razorpay SDK failed to load. Are you online?');
-		return;
-	}
-
 	const _token = localStorage.getItem('__JWT_TOKEN__');
 	const _user = getLoggedInUser();
 	const config = {
@@ -47,52 +30,23 @@ async function createOrderAndShowRazorpay(orderData, dispatch, history) {
 	};
 
 	// creating a new order
-	const response = await axiosInstance.post('/payment/order', orderData, config);
+	const response = await axiosInstance.post(
+		'/payment/order',
+		orderData,
+		config,
+	);
 
 	if (!response) {
 		alert('Server error. try again!');
 		return;
 	}
 
-	// Getting the order details back
-	const { amount, id: order_id, currency } = response.data;
+	console.log(response);
 
-	const options = {
-		key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-		amount: amount.toString(),
-		currency,
-		name: 'Tech Prism',
-		description: `Payment for ${_user.name}`,
-		order_id: order_id,
-		handler: async function (response) {
-			const paymentInfo = {
-				orderId: order_id,
-				paymentId: response.razorpay_payment_id,
-				paymentOrderId: response.razorpay_order_id,
-				signature: response.razorpay_signature,
-			};
-			try {
-				const orderItem = {
-					...orderData,
-					paymentInfo,
-				}
-				// console.log(orderItem)
-	
-				const { data: userOrder } = await axiosInstance.post('/payment', orderItem, config);
-	
-				console.log('Payment successful');
-				// console.log(userOrder);
-				await dispatch(clearCart());
-				history.push('/orders');
-			} catch(err) {
-				console.log(err);
-				console.log('Payment call to server failed');
-			}
-		},
-	};
+	// Getting the payment url and order details back
+	const { paymentLink } = response.data;
 
-	const paymentObject = new window.Razorpay(options);
-	paymentObject.open();
+	window.location.href = paymentLink;
 }
 
 export { getLoggedInUser, getCartPrice, createOrderAndShowRazorpay };

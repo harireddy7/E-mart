@@ -21,7 +21,7 @@ app.use(express.json());
 // CORS
 app.use(
 	cors({
-		origin: 'http://localhost:3000',
+		origin: ['http://localhost:3000', 'https://webhook.site'],
 	})
 );
 
