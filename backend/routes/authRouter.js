@@ -1,5 +1,9 @@
 import express from 'express';
-import { loginUser, registerUser } from '../controllers/authController.js';
+import {
+	loginUser,
+	registerUser,
+	loginWithOAuth,
+} from '../controllers/authController.js';
 
 const router = express.Router();
 
@@ -17,7 +21,7 @@ const router = express.Router();
  *          content:
  *              'application/json':
  *                  schema:
- *                      $ref: '#/components/schemas/RegisterUser' 
+ *                      $ref: '#/components/schemas/RegisterUser'
  *     responses:
  *      201:
  *          description: User registered successfully
@@ -37,7 +41,7 @@ const router = express.Router();
  *            'application/json':
  *              schema:
  *                $ref: '#/components/schemas/ErrorMsgStack'
- *       
+ *
  */
 router.route('/register').post(registerUser);
 
@@ -55,7 +59,7 @@ router.route('/register').post(registerUser);
  *          content:
  *              'application/json':
  *                  schema:
- *                      $ref: '#/components/schemas/LoginUser' 
+ *                      $ref: '#/components/schemas/LoginUser'
  *     responses:
  *      200:
  *          description: Authentication success
@@ -81,8 +85,10 @@ router.route('/register').post(registerUser);
  *            'application/json':
  *              schema:
  *                $ref: '#/components/schemas/ErrorMsgStack'
- *       
+ *
  */
 router.post('/login', loginUser);
+
+router.post('/token', loginWithOAuth);
 
 export default router;
